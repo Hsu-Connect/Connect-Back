@@ -54,4 +54,15 @@ public class PostController {
         return ApiResponse.onSuccess(null);
     }
 
+    @Operation(
+            summary = "내 게시글 리스트 조회",
+            description = "자신이 작성한 게시글의 리스트를 조회하는 API입니다."
+    )
+    @GetMapping("/my")
+    public ApiResponse<PostResponseDto.PostListResponse> getMyPosts(
+
+    ) {
+        return ApiResponse.onSuccess(null);
+    }
+
 }
