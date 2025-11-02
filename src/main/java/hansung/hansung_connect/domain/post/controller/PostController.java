@@ -6,9 +6,11 @@ import hansung.hansung_connect.domain.post.dto.PostResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Post", description = "게시글 관련 API")
@@ -24,6 +26,18 @@ public class PostController {
     @PostMapping("")
     public ApiResponse<PostResponseDto.PostCreateResponse> createPost(
             @RequestBody PostRequestDto.PostCreateRequest request
+    ) {
+        return ApiResponse.onSuccess(null);
+    }
+
+    @Operation(
+            summary = "게시글 리스트 조회",
+            description = "게시글 리스트를 조회하는 API입니다. Query Parameter로 게시글 유형을 입력해주세요."
+                    + " [popular, free, promotion, notice]"
+    )
+    @GetMapping("")
+    public ApiResponse<PostResponseDto.PostCreateResponse> getPosts(
+            @RequestParam(required = false, defaultValue = "popular") String type
     ) {
         return ApiResponse.onSuccess(null);
     }
