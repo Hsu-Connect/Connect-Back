@@ -1,0 +1,31 @@
+package hansung.hansung_connect.domain.post.controller;
+
+import hansung.hansung_connect.common.response.ApiResponse;
+import hansung.hansung_connect.domain.post.dto.PostRequestDto;
+import hansung.hansung_connect.domain.post.dto.PostResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Tag(name = "Post", description = "게시글 관련 API")
+@RestController
+@RequestMapping("/posts")
+@RequiredArgsConstructor
+public class PostController {
+
+    @Operation(
+            summary = "게시글 작성",
+            description = "게시글을 작성하는 API입니다. postType으로 게시글 유형을 입력해주세요."
+    )
+    @PostMapping("")
+    public ApiResponse<PostResponseDto.PostCreateResponse> createPost(
+            @RequestBody PostRequestDto.PostCreateRequest request
+    ) {
+        return ApiResponse.onSuccess(null);
+    }
+
+}
