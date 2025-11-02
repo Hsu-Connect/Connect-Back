@@ -13,4 +13,11 @@ public class TestResponse {
     public static class TestDTO{
         String testString;
     }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ExceptionDTO{
+        Integer flag;
+    }
 }
