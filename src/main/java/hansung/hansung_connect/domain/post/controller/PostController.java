@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +37,19 @@ public class PostController {
                     + " [popular, free, promotion, notice]"
     )
     @GetMapping("")
-    public ApiResponse<PostResponseDto.PostCreateResponse> getPosts(
+    public ApiResponse<PostResponseDto.PostListResponse> getPosts(
             @RequestParam(required = false, defaultValue = "popular") String type
+    ) {
+        return ApiResponse.onSuccess(null);
+    }
+
+    @Operation(
+            summary = "게시글 단건 조회",
+            description = "하나의 게시글을 조회하는 API입니다. Path Variable로 게시글 아이디를 입력해주세요."
+    )
+    @GetMapping("/{postId}")
+    public ApiResponse<PostResponseDto.PostResponse> getPost(
+            @PathVariable("postId") Long postId
     ) {
         return ApiResponse.onSuccess(null);
     }
