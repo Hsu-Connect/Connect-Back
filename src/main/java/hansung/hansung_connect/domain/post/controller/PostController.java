@@ -7,6 +7,7 @@ import hansung.hansung_connect.domain.post.dto.enums.PostQueryType;
 import hansung.hansung_connect.domain.post.service.PostCommandService;
 import hansung.hansung_connect.domain.post.service.PostQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,12 +41,21 @@ public class PostController {
 
     @Operation(
             summary = "게시글 리스트 조회",
-            description = "게시글 리스트를 조회하는 API입니다. Query Parameter로 게시글 유형을 입력해주세요."
-                    + " [popular, free, promotion, notice]"
+            description = """
+            게시글 유형별 리스트를 조회합니다.
+            - popular: 인기글
+            - free: 자유 게시판
+            - promotion: 홍보 게시판
+            - notice: 공지 게시글
+            한 페이지에 게시글의 수는 20입니다.
+            """
     )
     @GetMapping("")
     public ApiResponse<PostResponseDto.PostListResponse> getPosts(
-            @RequestParam(required = false, defaultValue = "popular") PostQueryType type
+            @Parameter(description = "게시글 조회 유형", example = "popular")
+            @RequestParam(defaultValue = "popular") PostQueryType type,
+            @Parameter(description = "페이지 번호")
+            @RequestParam(defaultValue = "0") int page
     ) {
         return ApiResponse.onSuccess(null);
     }

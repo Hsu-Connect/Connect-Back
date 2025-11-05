@@ -54,6 +54,15 @@ public class PostResponseDto {
     public static class PostListResponse {
         @Schema(description = "게시글 요약 정보")
         private List<PostSummaryResponse> posts;
+
+        @Schema(description = "현재 페이지 번호 (0부터 시작)", example = "0")
+        private int currentPage;
+
+        @Schema(description = "다음 페이지 존재 여부", example = "true")
+        private boolean hasNext;
+
+        @Schema(description = "총 게시글 수", example = "132")
+        private long totalElements;
     }
 
     @Getter
