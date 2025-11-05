@@ -12,6 +12,8 @@ import hansung.hansung_connect.domain.post.dto.enums.PostQueryType;
 import hansung.hansung_connect.domain.post.entity.Post;
 import hansung.hansung_connect.domain.post.entity.enums.PostType;
 import hansung.hansung_connect.domain.post.repository.PostRepository;
+import hansung.hansung_connect.domain.user.entity.User;
+import hansung.hansung_connect.domain.user.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
     private final PostConverter postConverter;
 
     @Override
@@ -124,4 +127,19 @@ public class PostQueryServiceImpl implements PostQueryService {
 
         return posts;
     }
+
+    @Override
+    public PostListResponse getPostsByUser(Long userId, int page) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
+
+        Page<Post> posts = postRepository.findByUserId(
+                userId,
+                PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "createdAt"))
+        );
+
+        return postConverter.toPostListResponse(posts);
+    }
+
 }
