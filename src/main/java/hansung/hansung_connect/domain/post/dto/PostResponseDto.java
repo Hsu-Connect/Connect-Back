@@ -22,6 +22,7 @@ public class PostResponseDto {
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(name = "PostSummaryResponse", title = "게시글 요약 정보")
@@ -46,15 +47,26 @@ public class PostResponseDto {
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(name = "PostListResponse", title = "게시글 목록 조회 응답")
     public static class PostListResponse {
         @Schema(description = "게시글 요약 정보")
         private List<PostSummaryResponse> posts;
+
+        @Schema(description = "현재 페이지 번호 (0부터 시작)", example = "0")
+        private int currentPage;
+
+        @Schema(description = "다음 페이지 존재 여부", example = "true")
+        private boolean hasNext;
+
+        @Schema(description = "총 게시글 수", example = "132")
+        private long totalElements;
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(name = "PostResponse", title = "게시글 상세 조회 응답")
@@ -78,7 +90,7 @@ public class PostResponseDto {
         private String body;
 
         @Schema(description = "자신의 게시글인지 여부", example = "false")
-        private boolean isMine;
+        private boolean mine;
 
         @Schema(description = "게시글의 댓글 리스트")
         private List<PostCommentResponse> comments;
@@ -86,6 +98,7 @@ public class PostResponseDto {
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(name = "PostCommentResponse", title = "게시글의 댓글 리스트 응답")
@@ -103,7 +116,7 @@ public class PostResponseDto {
         private String content;
 
         @Schema(description = "자신의 댓글인지 여부", example = "false")
-        private boolean isMine;
+        private boolean mine;
 
     }
 }
