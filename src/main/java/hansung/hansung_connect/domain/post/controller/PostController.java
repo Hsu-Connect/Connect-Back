@@ -47,17 +47,19 @@ public class PostController {
             - free: 자유 게시판
             - promotion: 홍보 게시판
             - notice: 공지 게시글
+            
             한 페이지에 게시글의 수는 20입니다.
             """
     )
     @GetMapping("")
     public ApiResponse<PostResponseDto.PostListResponse> getPosts(
             @Parameter(description = "게시글 조회 유형", example = "popular")
-            @RequestParam(defaultValue = "popular") PostQueryType type,
+            @RequestParam(defaultValue = "popular") String type,
             @Parameter(description = "페이지 번호")
             @RequestParam(defaultValue = "0") int page
     ) {
-        return ApiResponse.onSuccess(null);
+        PostQueryType postType = PostQueryType.from(type);
+        return ApiResponse.onSuccess(postQueryService.getPostsByType(postType, page));
     }
 
     @Operation(

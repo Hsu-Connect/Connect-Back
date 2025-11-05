@@ -7,10 +7,13 @@ import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostCommentRespon
 import hansung.hansung_connect.domain.post.entity.Post;
 import hansung.hansung_connect.domain.user.entity.User;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PostConverter {
+
+    private static final int SUMMARY_LENGTH = 30;
 
     public Post toPost(User user, PostRequestDto.PostCreateRequest request) {
         return Post.builder()
@@ -28,21 +31,12 @@ public class PostConverter {
                 .build();
     }
 
-    public PostResponseDto.PostResponse toPostResponse(Post post, List<Comment> comments) {
-        return PostResponseDto.PostResponse.builder()
-                .id(post.getId())
-                .author(post.getUser().getName())
-
-                .build();
-
-    }
-
     public PostResponseDto.PostResponse toPostResponse(Post post, Long currentUserId, List<PostCommentResponse> commentResponses) {
         return PostResponseDto.PostResponse.builder()
                 .id(post.getId())
                 .author(post.getUser().getName())
                 .studentId(post.getUser().getStudentNumber())
-                .authorStatus(post.getUser().getAcademicStatus().toString())
+                .authorStatus(post.getUser().getAcademicStatus().getStatus())
                 .title(post.getTitle())
                 .body(post.getBody())
                 .mine(post.getUser().getId().equals(currentUserId))
@@ -57,6 +51,35 @@ public class PostConverter {
                 .commenterStatus(comment.getUser().getAcademicStatus().toString())
                 .content(comment.getBody())
                 .mine(comment.getUser().getId().equals(currentUserId))
+                .build();
+    }
+
+    public PostResponseDto.PostSummaryResponse toPostSummaryResponse(Post post) {
+        String body = post.getBody();
+        String summary = body.length() <= SUMMARY_LENGTH
+                ? body
+                : body.substring(0, SUMMARY_LENGTH) + "...";
+
+        return PostResponseDto.PostSummaryResponse.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .summary(summary)
+                .author(post.getUser().getName())
+                .studentId(post.getUser().getStudentNumber())
+                .authorStatus(post.getUser().getAcademicStatus().getStatus())
+                .build();
+    }
+
+    public PostResponseDto.PostListResponse toPostListResponse(Page<Post> postPage) {
+        List<PostResponseDto.PostSummaryResponse> posts = postPage.getContent().stream()
+                .map(this::toPostSummaryResponse)
+                .toList();
+
+        return PostResponseDto.PostListResponse.builder()
+                .posts(posts)
+                .currentPage(postPage.getNumber())
+                .hasNext(postPage.hasNext())
+                .totalElements(postPage.getTotalElements())
                 .build();
     }
 }
