@@ -20,7 +20,7 @@ public class TokenProvider {
     private final long accessTtlMinutes;
     private final long refreshTtlDays;
 
-    // 단 하나의 생성자만 사용 (필수)
+    // 단 하나의 생성자만 사용
     public TokenProvider(
             @Value("${app.jwt.secret}") String secret,
             @Value("${app.jwt.access-ttl-minutes:60}") long accessTtlMinutes,
