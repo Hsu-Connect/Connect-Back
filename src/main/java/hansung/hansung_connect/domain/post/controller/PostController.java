@@ -3,6 +3,7 @@ package hansung.hansung_connect.domain.post.controller;
 import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.post.dto.PostRequestDto;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto;
+import hansung.hansung_connect.domain.post.dto.enums.PostQueryType;
 import hansung.hansung_connect.domain.post.service.PostCommandService;
 import hansung.hansung_connect.domain.post.service.PostQueryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +45,7 @@ public class PostController {
     )
     @GetMapping("")
     public ApiResponse<PostResponseDto.PostListResponse> getPosts(
-            @RequestParam(required = false, defaultValue = "popular") String type
+            @RequestParam(required = false, defaultValue = "popular") PostQueryType type
     ) {
         return ApiResponse.onSuccess(null);
     }
