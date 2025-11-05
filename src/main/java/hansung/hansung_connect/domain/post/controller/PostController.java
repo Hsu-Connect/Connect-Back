@@ -76,13 +76,20 @@ public class PostController {
 
     @Operation(
             summary = "내 게시글 리스트 조회",
-            description = "자신이 작성한 게시글의 리스트를 조회하는 API입니다."
+            description = """
+            작성한 게시글의 리스트를 조회하는 API입니다.
+            
+            한 페이지에 게시글의 수는 20입니다.
+            """
+
     )
     @GetMapping("/my")
     public ApiResponse<PostResponseDto.PostListResponse> getMyPosts(
-
+            @Parameter(description = "페이지 번호")
+            @RequestParam(defaultValue = "0") int page
     ) {
-        return ApiResponse.onSuccess(null);
+        Long userId = 1L;
+        return ApiResponse.onSuccess(postQueryService.getPostsByUser(userId, page));
     }
 
 }

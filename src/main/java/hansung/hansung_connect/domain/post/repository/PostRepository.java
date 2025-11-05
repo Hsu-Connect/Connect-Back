@@ -21,4 +21,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             @Param("types") List<PostType> types,
             @Param("threshold") LocalDateTime threshold,
             Pageable pageable);
+
+    Page<Post> findByUserId(Long userId, Pageable pageable);
 }

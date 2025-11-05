@@ -7,4 +7,5 @@ public interface PostQueryService {
 
     PostResponseDto.PostResponse getPost(Long userId, Long postId);
     PostResponseDto.PostListResponse getPostsByType(PostQueryType type, int page);
+    PostResponseDto.PostListResponse getPostsByUser(Long userId, int page);
 }
