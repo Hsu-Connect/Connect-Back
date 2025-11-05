@@ -81,7 +81,6 @@ public class PostController {
             
             한 페이지에 게시글의 수는 20입니다.
             """
-
     )
     @GetMapping("/my")
     public ApiResponse<PostResponseDto.PostListResponse> getMyPosts(
