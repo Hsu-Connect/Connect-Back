@@ -33,12 +33,13 @@ public class PostQueryServiceImpl implements PostQueryService {
     private final PostConverter postConverter;
 
     @Override
+    @Transactional
     public PostResponse getPost(Long userId, Long postId) {
-
-        //TODO: 조회수 증가 로직 필요
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.POST_NOT_FOUND));
+
+        post.increaseViews();
 
         List<Comment> comments = commentRepository.findByPostIdOrderByCreatedAtAsc(postId);
 
