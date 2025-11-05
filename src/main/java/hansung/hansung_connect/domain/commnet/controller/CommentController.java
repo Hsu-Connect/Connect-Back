@@ -4,6 +4,7 @@ import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.commnet.dto.CommentRequestDto;
 import hansung.hansung_connect.domain.commnet.dto.CommentResponseDto;
 import hansung.hansung_connect.domain.commnet.service.CommentCommandService;
+import hansung.hansung_connect.domain.commnet.service.CommentQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentCommandService commentCommandService;
+    private final CommentQueryService commentQueryService;
 
     @Operation(
             summary = "댓글 작성",
@@ -50,7 +52,7 @@ public class CommentController {
             @RequestParam(defaultValue = "0") int page
     ) {
         Long userId = 1L;
-        return ApiResponse.onSuccess(null);
+        return ApiResponse.onSuccess(commentQueryService.getCommentsByUser(userId, page));
     }
 
 

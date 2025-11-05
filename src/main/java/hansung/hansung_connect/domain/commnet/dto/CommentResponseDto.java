@@ -50,7 +50,7 @@ public class CommentResponseDto {
     public static class CommentResponse {
 
         @Schema(description = "댓글 ID", example = "123")
-        private Long CommentId;
+        private Long commentId;
 
         @Schema(description = "댓글 작성자", example = "장우진")
         private String commenter;
