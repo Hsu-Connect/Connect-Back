@@ -4,6 +4,7 @@ import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.post.dto.PostRequestDto;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto;
 import hansung.hansung_connect.domain.post.service.PostCommandService;
+import hansung.hansung_connect.domain.post.service.PostQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     private final PostCommandService postCommandService;
+    private final PostQueryService postQueryService;
 
     @Operation(
             summary = "게시글 작성",
@@ -55,7 +57,8 @@ public class PostController {
     public ApiResponse<PostResponseDto.PostResponse> getPost(
             @PathVariable("postId") Long postId
     ) {
-        return ApiResponse.onSuccess(null);
+        Long userId = 1L;
+        return ApiResponse.onSuccess(postQueryService.getPost(userId, postId));
     }
 
     @Operation(
