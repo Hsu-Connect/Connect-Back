@@ -24,7 +24,11 @@ public enum ErrorStatus implements BaseErrorCode {
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "USER4001", "사용자를 찾을 수 없습니다."),
 
     // 게시글 관련 응답
-    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST4001", "게시글을 찾을 수 없습니다.");
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST4001", "게시글을 찾을 수 없습니다."),
+    POST_QUERY_TYPE_EXCEPTION(HttpStatus.BAD_REQUEST, "POST4002", "게시글 조회 타입이 잘못되었습니다."),
+    POST_LIST_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "POST5001", "게시글 리스트가 비어있습니다."),
+    INVALID_PAGE_FOR_POPULAR(HttpStatus.BAD_REQUEST,"POST4003", "인기 게시글은 0번 페이지만 조회 가능합니다.");
+
 
     private final HttpStatus httpStatus;
     private final String code;
