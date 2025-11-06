@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "User", description = "유저/프로필 조회 API")
@@ -93,6 +94,33 @@ public class UserController {
         userCommandService.updateMyBasicProfile(currentUserId, normalized);
 
         return ResponseEntity.ok(ApiResponse.onSuccess(null));
+    }
+
+    @Operation(
+            summary = "멘토 목록 조회 (전공 우선, 15개/페이지)",
+            description = """
+                    로그인 사용자와 같은 전공인 멘토 우선정렬하여 보여집니다.<br><br>
+                    페이징: page(기본 0), size(기본 15)<br>
+                    반환 필드:
+                    - totalMentorCount: 전체 멘토 수
+                    - items: 멘토 카드 리스트
+                    """
+    )
+    @GetMapping("/mentors")
+    public ResponseEntity<ApiResponse<UserResponseDTO.MentorListResponse>> getMentors(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size
+    ) {
+        // 개발 단계: 하드코딩. 추후 SecurityContext에서 꺼내기
+        Long currentUserId = 1L;
+
+        // 강제 size=15 정책 사용 시 고정
+        // size = 15;
+
+        UserResponseDTO.MentorListResponse result =
+                userQueryService.getMentors(currentUserId, page, size);
+
+        return ResponseEntity.ok(ApiResponse.onSuccess(result));
     }
 }
 

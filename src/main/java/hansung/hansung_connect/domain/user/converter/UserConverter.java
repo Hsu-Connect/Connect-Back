@@ -8,7 +8,9 @@ import hansung.hansung_connect.domain.user.entity.User;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -101,5 +103,28 @@ public class UserConverter {
         }
         String t = s.trim();
         return t.isEmpty() ? null : t;
+    }
+
+    public UserResponseDTO.MentorListResponse toMentorListResponse(
+            Page<User> page, Set<Long> employedUserIds, long totalMentorCount) {
+
+        List<UserResponseDTO.MentorCard> cards = page.getContent().stream()
+                .map(u -> UserResponseDTO.MentorCard.builder()
+                        .userId(u.getId())
+                        .name(u.getName())
+                        .major(u.getMajor())
+                        .jobSeeking(u.isJobSeeking())
+                        .employed(employedUserIds.contains(u.getId()))
+                        .academicStatus(u.getAcademicStatus())
+                        .build())
+                .collect(Collectors.toList());
+
+        return UserResponseDTO.MentorListResponse.builder()
+                .totalMentorCount(totalMentorCount)
+                .page(page.getNumber())
+                .size(page.getSize())
+                .totalPages(page.getTotalPages())
+                .items(cards)
+                .build();
     }
 }
