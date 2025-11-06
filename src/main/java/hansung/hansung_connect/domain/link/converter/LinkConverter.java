@@ -22,4 +22,8 @@ public class LinkConverter {
                 .url(link.getUrl())
                 .build();
     }
+
+    public static void applyUpdate(Link link, LinkRequestDTO.UpdateLinkDTO request) {
+        link.update(request.getType(), request.getUrl());
+    }
 }

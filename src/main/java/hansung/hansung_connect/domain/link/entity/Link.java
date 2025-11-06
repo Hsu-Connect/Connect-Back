@@ -44,4 +44,9 @@ public class Link extends BaseEntity {
 //    @Enumerated(EnumType.STRING)
 //    @Column(nullable = false)
 //    private LinkCategory category;
+
+    public void update(LinkType type, String url) {
+        this.type = type;
+        this.url = url;
+    }
 }
