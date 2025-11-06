@@ -2,6 +2,7 @@ package hansung.hansung_connect.domain.user.converter;
 
 import hansung.hansung_connect.domain.career.entity.Career;
 import hansung.hansung_connect.domain.link.entity.Link;
+import hansung.hansung_connect.domain.user.dto.UserRequestDTO;
 import hansung.hansung_connect.domain.user.dto.UserResponseDTO;
 import hansung.hansung_connect.domain.user.entity.User;
 import java.time.YearMonth;
@@ -76,5 +77,29 @@ public class UserConverter {
 
     private String formatYm(YearMonth ym) {
         return ym == null ? null : ym.format(YM_FORMAT);
+    }
+
+    public UserRequestDTO.UpdateBasicProfileRequest normalize(
+            UserRequestDTO.UpdateBasicProfileRequest req) {
+
+        if (req == null) {
+            return null;
+        }
+
+        return UserRequestDTO.UpdateBasicProfileRequest.builder()
+                .studentNumber(trimOrNull(req.getStudentNumber()))
+                .name(trimOrNull(req.getName()))
+                .major(trimOrNull(req.getMajor()))
+                .mentor(req.getMentor())
+                .jobSeeking(req.getJobSeeking())
+                .build();
+    }
+
+    private String trimOrNull(String s) {
+        if (s == null) {
+            return null;
+        }
+        String t = s.trim();
+        return t.isEmpty() ? null : t;
     }
 }
