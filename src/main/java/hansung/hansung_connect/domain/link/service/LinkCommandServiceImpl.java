@@ -9,6 +9,7 @@ import hansung.hansung_connect.domain.link.entity.Link;
 import hansung.hansung_connect.domain.link.repository.LinkRepository;
 import hansung.hansung_connect.domain.user.entity.User;
 import hansung.hansung_connect.domain.user.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,5 +54,19 @@ public class LinkCommandServiceImpl implements LinkCommandService {
 
         return LinkConverter.toLinkResultDTO(link);
     }
+
+    @Override
+    @Transactional
+    public LinkResponseDTO.LinkResultListDTO createLinks(Long userId, LinkRequestDTO.CreateLinksDTO request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
+
+        List<Link> entities = LinkConverter.toLinkList(request.getLinks(), user);
+        List<Link> saved = linkRepository.saveAll(entities);
+
+        return LinkConverter.toLinkResultListDTO(saved);
+    }
+
+
 }
 
