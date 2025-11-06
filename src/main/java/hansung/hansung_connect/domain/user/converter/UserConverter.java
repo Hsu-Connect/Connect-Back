@@ -127,4 +127,38 @@ public class UserConverter {
                 .items(cards)
                 .build();
     }
+
+    public UserResponseDTO.UserProfileResponse toUserProfileResponse(
+            User user, boolean employed, List<Career> careers, List<Link> links) {
+
+        return UserResponseDTO.UserProfileResponse.builder()
+                .userId(user.getId())
+                .name(user.getName())
+                .studentNumberPrefix(extractStudentNumberPrefix(user.getStudentNumber()))
+                .major(user.getMajor())
+                .jobSeeking(user.isJobSeeking())
+                .employed(employed)
+                .academicStatus(user.getAcademicStatus())
+                .email(user.getEmail())
+                .careers(careers.stream()
+                        .map(c -> UserResponseDTO.CareerItem.builder()
+                                .id(c.getId())
+                                .companyName(c.getCompanyName())
+                                .position(c.getPosition())
+                                .jobType(c.getJobType())
+                                .employed(c.isEmployed())
+                                .startYm(formatYm(c.getStartYm()))
+                                .endYm(formatYm(c.getEndYm()))
+                                .build())
+                        .toList())
+                .links(links.stream()
+                        .map(l -> UserResponseDTO.LinkItem.builder()
+                                .id(l.getId())
+                                .type(l.getType())
+                                .url(l.getUrl())
+                                .build())
+                        .toList())
+                .build();
+    }
+
 }

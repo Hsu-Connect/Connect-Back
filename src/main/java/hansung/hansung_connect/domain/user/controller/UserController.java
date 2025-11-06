@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -122,5 +123,23 @@ public class UserController {
 
         return ResponseEntity.ok(ApiResponse.onSuccess(result));
     }
+
+    @Operation(
+            summary = "한성인 찾기 - 유저 프로필 조회",
+            description = """
+                    한성인 찾기 시 목록에서 유저를 클릭하면 나오는 유저 프로필화면입니다.<br>
+                    특정 유저(멘토)의 전체 프로필을 반환합니다.<br>
+                    - 기본정보: 이름, 학번 앞 두 자리, 전공, 구직여부, 재직여부, 재학상태<br>
+                    - 커리어 목록(CareerItem), 링크 목록(LinkItem)
+                    """
+    )
+    @GetMapping("/profiles/{userId}")
+    public ResponseEntity<ApiResponse<UserResponseDTO.UserProfileResponse>> getUserProfile(
+            @PathVariable Long userId
+    ) {
+        UserResponseDTO.UserProfileResponse result = userQueryService.getUserProfile(userId);
+        return ResponseEntity.ok(ApiResponse.onSuccess(result));
+    }
+
 }
 

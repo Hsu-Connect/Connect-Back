@@ -88,4 +88,22 @@ public class UserResponseDTO {
         private int totalPages;
         private List<MentorCard> items;  // 카드 15개
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class UserProfileResponse {
+        private Long userId;
+        private String name;
+        private String studentNumberPrefix;   // 학번 앞 두 자리 (예: "21")
+        private String major;
+        private String email;
+        private boolean jobSeeking;
+        private boolean employed;             // Career 기준
+        private AcademicStatus academicStatus;
+        private List<CareerItem> careers;     // 기존 CareerItem 재활용
+        private List<LinkItem> links;         // 기존 LinkItem 재활용
+    }
+
 }
