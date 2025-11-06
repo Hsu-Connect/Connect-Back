@@ -40,8 +40,16 @@ public enum ErrorStatus implements BaseErrorCode {
     CAREER_END_YM_BEFORE_START(HttpStatus.BAD_REQUEST, "CAREER4008", "종료 연월은 시작 연월보다 앞설 수 없습니다."),
     CAREER_BULK_EMPTY(HttpStatus.BAD_REQUEST, "CAREER4009", "추가할 커리어 항목이 비어 있습니다."),
     CAREER_NOT_FOUND(HttpStatus.BAD_REQUEST, "CAREER4007", "해당 커리어를 찾을 수 없습니다."),
-    CAREER_FORBIDDEN(HttpStatus.FORBIDDEN, "CAREER4008", "해당 커리어에 대한 수정 권한이 없습니다.");
+    CAREER_FORBIDDEN(HttpStatus.FORBIDDEN, "CAREER4008", "해당 커리어에 대한 수정 권한이 없습니다."),
 
+    // 링크 관련 응답
+    LINK_NOT_FOUND(HttpStatus.BAD_REQUEST, "LINK4001", "해당 링크를 찾을 수 없습니다."),
+    LINK_FORBIDDEN(HttpStatus.FORBIDDEN, "LINK4031", "해당 링크에 대한 접근 권한이 없습니다."),
+    LINK_TYPE_REQUIRED(HttpStatus.BAD_REQUEST, "LINK4002", "링크 타입은 필수입니다."),
+    LINK_URL_REQUIRED(HttpStatus.BAD_REQUEST, "LINK4003", "URL은 비어 있을 수 없습니다."),
+    LINK_INVALID_URL(HttpStatus.BAD_REQUEST, "LINK4004", "유효한 URL 형식이 아닙니다."),
+    LINK_DUPLICATE_TYPE(HttpStatus.BAD_REQUEST, "LINK4005", "동일한 타입의 링크가 이미 존재합니다."),
+    LINK_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "LINK5001", "링크 수정 중 오류가 발생했습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

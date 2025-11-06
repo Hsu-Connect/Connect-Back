@@ -31,5 +31,27 @@ public class LinkServiceImpl implements LinkService {
         Link saved = linkRepository.save(link);
         return LinkConverter.toLinkResultDTO(saved);
     }
+
+    @Override
+    @Transactional
+    public LinkResponseDTO.LinkResultDTO updateLink(Long userId, Long linkId, LinkRequestDTO.UpdateLinkDTO request) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
+
+        Link link = linkRepository.findById(linkId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.LINK_NOT_FOUND));
+
+        if (link.getUser() == null || !link.getUser().getId().equals(userId)) {
+            throw new GeneralException(ErrorStatus.LINK_FORBIDDEN);
+        }
+
+        if (linkRepository.existsByUser_IdAndTypeAndIdNot(userId, request.getType(), linkId)) {
+            throw new GeneralException(ErrorStatus.LINK_DUPLICATE_TYPE);
+        }
+
+        LinkConverter.applyUpdate(link, request);
+
+        return LinkConverter.toLinkResultDTO(link);
+    }
 }
 
