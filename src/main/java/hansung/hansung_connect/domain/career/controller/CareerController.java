@@ -2,6 +2,7 @@ package hansung.hansung_connect.domain.career.controller;
 
 import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.career.dto.CareerRequestDTO;
+import hansung.hansung_connect.domain.career.dto.CareerRequestDTO.BatchCreateRequestDTO;
 import hansung.hansung_connect.domain.career.dto.CareerResponseDTO;
 import hansung.hansung_connect.domain.career.service.CareerCommandService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,24 @@ public class CareerController {
         return ApiResponse.onSuccess(response);
     }
 
-
+    @Operation(
+            summary = "내 커리어 여러 개 일괄 추가",
+            description = """
+                    온보딩 등에서 커리어를 **여러 개 한 번에 등록**하는 API입니다.<br>
+                    - items 배열에 단건 생성 스펙과 동일한 객체들을 담아 전송합니다.<br>
+                    - startYm, endYm 형식: "yyyy-MM" 또는 "yyyy.MM" (둘 다 허용)<br>
+                    - 재직 중(employed == true)이면 endYm은 null이어야 합니다.<br><br>
+                    <b>JobType ENUM</b><br>
+                    • PERMANENT (정규직)<br>
+                    • TEMPORARY (계약직)<br>
+                    • INTERN (인턴)<br>
+                    • FREELANCER (프리랜서)
+                    """
+    )
+    @PostMapping("/users/me/careers/batch")
+    public ApiResponse<CareerResponseDTO.BulkCreateResponseDTO> createCareers(
+            @RequestBody BatchCreateRequestDTO requestDTO) {
+        return ApiResponse.onSuccess(careerCommandService.createCareers(requestDTO));
+    }
 }
 
