@@ -8,5 +8,8 @@ public interface CareerCommandService {
     CareerResponseDTO.CreateResponseDTO createCareer(CareerRequestDTO.CreateRequestDTO requestDTO);
 
     CareerResponseDTO.BulkCreateResponseDTO createCareers(BatchCreateRequestDTO requestDTO);
+
+    CareerResponseDTO.UpdateResponseDTO updateCareer(Long careerId, CareerRequestDTO.UpdateRequestDTO requestDTO);
+
 }
 

@@ -52,5 +52,34 @@ public class CareerResponseDTO {
         @Schema(description = "생성된 개수", example = "3")
         private int createdCount;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(name = "CareerUpdateResponse", title = "커리어 수정 응답")
+    public static class UpdateResponseDTO {
+
+        @Schema(description = "커리어 ID", example = "7")
+        private Long id;
+
+        @Schema(description = "회사명", example = "한성대학교")
+        private String companyName;
+
+        @Schema(description = "직무명", example = "백엔드 개발자")
+        private String position;
+
+        @Schema(description = "재직 형태", example = "PERMANENT")
+        private JobType jobType;
+
+        @Schema(description = "재직 여부", example = "true")
+        private boolean employed;
+
+        @Schema(description = "근무 시작 연월", example = "2024-04")
+        private String startYm;
+
+        @Schema(description = "근무 종료 연월 (재직중이면 null)", example = "2024-08")
+        private String endYm;
+    }
 }
 

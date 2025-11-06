@@ -8,7 +8,9 @@ import hansung.hansung_connect.domain.career.service.CareerCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,5 +63,32 @@ public class CareerController {
             @RequestBody BatchCreateRequestDTO requestDTO) {
         return ApiResponse.onSuccess(careerCommandService.createCareers(requestDTO));
     }
+
+    @Operation(
+            summary = "내 커리어 수정",
+            description = """
+                    기존 커리어 정보를 수정(전체 대체)하는 API입니다.
+                    <br><br>
+                    요청 규칙
+                    - careerId: 수정할 커리어의 ID (PathVariable로 전달)
+                    - 요청 본문은 생성(Create) 요청과 동일하며, 전달된 값으로 전부 교체됩니다.
+                    - isEmployed(재직 여부)가 true이면 endYm은 null이어야 합니다.
+                    - isEmployed(재직 여부)가 false이면 endYm은 필수입니다.
+                    - 연월은 "2024-04" 또는 "2024.04" 형태 모두 허용합니다.
+                    
+                    JobType ENUM
+                    - PERMANENT (정규직)
+                    - TEMPORARY (계약직)
+                    - INTERN (인턴)
+                    - FREELANCER (프리랜서)
+                    """
+    )
+    @PutMapping("/users/me/careers/{careerId}")
+    public ApiResponse<CareerResponseDTO.UpdateResponseDTO> updateCareer(
+            @PathVariable Long careerId,
+            @RequestBody CareerRequestDTO.UpdateRequestDTO request) {
+        return ApiResponse.onSuccess(careerCommandService.updateCareer(careerId, request));
+    }
+
 }
 

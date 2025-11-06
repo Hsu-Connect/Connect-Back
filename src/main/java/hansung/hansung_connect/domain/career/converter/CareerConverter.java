@@ -2,8 +2,10 @@ package hansung.hansung_connect.domain.career.converter;
 
 import hansung.hansung_connect.domain.career.dto.CareerRequestDTO;
 import hansung.hansung_connect.domain.career.dto.CareerRequestDTO.CreateRequestDTO;
+import hansung.hansung_connect.domain.career.dto.CareerRequestDTO.UpdateRequestDTO;
 import hansung.hansung_connect.domain.career.dto.CareerResponseDTO;
 import hansung.hansung_connect.domain.career.dto.CareerResponseDTO.CreateResponseDTO;
+import hansung.hansung_connect.domain.career.dto.CareerResponseDTO.UpdateResponseDTO;
 import hansung.hansung_connect.domain.career.entity.Career;
 import hansung.hansung_connect.domain.user.entity.User;
 import java.time.YearMonth;
@@ -29,6 +31,30 @@ public class CareerConverter {
 
     public CreateResponseDTO toResponseDTO(Career career) {
         return CreateResponseDTO.builder()
+                .id(career.getId())
+                .companyName(career.getCompanyName())
+                .position(career.getPosition())
+                .jobType(career.getJobType())
+                .employed(career.isEmployed())
+                .startYm(formatYm(career.getStartYm()))
+                .endYm(formatYmNullable(career.getEndYm()))
+                .build();
+    }
+
+    public void applyUpdate(Career career, UpdateRequestDTO dto) {
+        // 엔티티에 update(...) 메서드가 없으면 아래 주석 참고해서 추가하세요.
+        career.update(
+                dto.getCompanyName(),
+                dto.getPosition(),
+                dto.getJobType(),
+                dto.isEmployed(),
+                parseYm(dto.getStartYm()),
+                parseYmNullable(dto.getEndYm())
+        );
+    }
+
+    public UpdateResponseDTO toUpdateResponseDTO(Career career) {
+        return UpdateResponseDTO.builder()
                 .id(career.getId())
                 .companyName(career.getCompanyName())
                 .position(career.getPosition())
