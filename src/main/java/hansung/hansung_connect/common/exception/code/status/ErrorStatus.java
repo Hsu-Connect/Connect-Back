@@ -27,7 +27,17 @@ public enum ErrorStatus implements BaseErrorCode {
     POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "POST4001", "게시글을 찾을 수 없습니다."),
     POST_QUERY_TYPE_EXCEPTION(HttpStatus.BAD_REQUEST, "POST4002", "게시글 조회 타입이 잘못되었습니다."),
     POST_LIST_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "POST5001", "게시글 리스트가 비어있습니다."),
-    INVALID_PAGE_FOR_POPULAR(HttpStatus.BAD_REQUEST,"POST4003", "인기 게시글은 0번 페이지만 조회 가능합니다.");
+    INVALID_PAGE_FOR_POPULAR(HttpStatus.BAD_REQUEST, "POST4003", "인기 게시글은 0번 페이지만 조회 가능합니다."),
+
+    // 커리어 관련 응답
+    CAREER_COMPANY_REQUIRED(HttpStatus.BAD_REQUEST, "CAREER4001", "회사명은 필수입니다."),
+    CAREER_POSITION_REQUIRED(HttpStatus.BAD_REQUEST, "CAREER4002", "직무명은 필수입니다."),
+    CAREER_JOBTYPE_REQUIRED(HttpStatus.BAD_REQUEST, "CAREER4003", "재직 형태는 필수입니다."),
+    CAREER_START_YM_REQUIRED(HttpStatus.BAD_REQUEST, "CAREER4004", "근무 시작 연월은 필수입니다."),
+    CAREER_INVALID_YEARMONTH_FORMAT(HttpStatus.BAD_REQUEST, "CAREER4005", "연월 형식이 올바르지 않습니다. (예: 2024-04)"),
+    CAREER_END_YM_FORBIDDEN_WHEN_EMPLOYED(HttpStatus.BAD_REQUEST, "CAREER4006", "재직중이면 종료 연월을 입력할 수 없습니다."),
+    CAREER_END_YM_REQUIRED_WHEN_NOT_EMPLOYED(HttpStatus.BAD_REQUEST, "CAREER4007", "재직중이 아니면 종료 연월이 필요합니다."),
+    CAREER_END_YM_BEFORE_START(HttpStatus.BAD_REQUEST, "CAREER4008", "종료 연월은 시작 연월보다 앞설 수 없습니다.");
 
 
     private final HttpStatus httpStatus;
