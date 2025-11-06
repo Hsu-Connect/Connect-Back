@@ -6,4 +6,7 @@ public interface UserQueryService {
     UserResponseDTO.SummaryCardResponse getMySummaryCard(Long currentUserId);
 
     UserResponseDTO.MyProfileResponse getMyProfile(Long currentUserId);
+
+    UserResponseDTO.MentorListResponse getMentors(Long currentUserId, int page, int size);
+
 }
