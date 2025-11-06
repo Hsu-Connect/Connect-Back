@@ -53,8 +53,9 @@ public class LinkController {
                     <br><br>
                     요청 규칙  
                     - path variable linkId: 수정할 링크의 ID  
-                    - body: type, url 필수  
-                    <br><br>
+                    - type: 링크 종류 (LINKEDIN, INSTAGRAM, GITHUB, NOTION, GOOGLE_DRIVE) 
+                    <br><br>  
+                    
                     제약 사항  
                     - 본인 소유 링크만 수정 가능  
                     - 동일 유저 내 동일 타입은 중복 불가  
