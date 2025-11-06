@@ -67,8 +67,21 @@ public class UserQueryServiceImpl implements UserQueryService {
 
         List<Long> userIds = mentorPage.map(User::getId).getContent();
         Set<Long> employedUserIds = new HashSet<>(careerRepository.findUserIdsEmployedTrueIn(userIds));
-        
+
         return userConverter.toMentorListResponse(mentorPage, employedUserIds, totalMentorCount);
     }
+
+    @Override
+    public UserResponseDTO.UserProfileResponse getUserProfile(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
+
+        boolean employed = careerRepository.existsByUser_IdAndIsEmployedTrue(userId);
+        List<Career> careers = careerRepository.findAllByUser_Id(userId);
+        List<Link> links = linkRepository.findAllByUser_Id(userId);
+
+        return userConverter.toUserProfileResponse(user, employed, careers, links);
+    }
+
 }
 

@@ -9,4 +9,6 @@ public interface UserQueryService {
 
     UserResponseDTO.MentorListResponse getMentors(Long currentUserId, int page, int size);
 
+    UserResponseDTO.UserProfileResponse getUserProfile(Long userId);
+
 }
