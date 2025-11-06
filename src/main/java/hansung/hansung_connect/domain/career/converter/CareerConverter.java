@@ -1,10 +1,13 @@
 package hansung.hansung_connect.domain.career.converter;
 
+import hansung.hansung_connect.domain.career.dto.CareerRequestDTO;
 import hansung.hansung_connect.domain.career.dto.CareerRequestDTO.CreateRequestDTO;
+import hansung.hansung_connect.domain.career.dto.CareerResponseDTO;
 import hansung.hansung_connect.domain.career.dto.CareerResponseDTO.CreateResponseDTO;
 import hansung.hansung_connect.domain.career.entity.Career;
 import hansung.hansung_connect.domain.user.entity.User;
 import java.time.YearMonth;
+import java.util.List;
 import lombok.Builder;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +36,27 @@ public class CareerConverter {
                 .employed(career.isEmployed())
                 .startYm(formatYm(career.getStartYm()))
                 .endYm(formatYmNullable(career.getEndYm()))
+                .build();
+    }
+
+    // ===== 배치 변환 =====
+    public List<Career> toEntities(List<CareerRequestDTO.CreateRequestDTO> items, User user) {
+        return items.stream()
+                .map(dto -> toEntity(dto, user))
+                .toList();
+    }
+
+    public List<CreateResponseDTO> toCreateResponseDTOList(List<Career> careers) {
+        return careers.stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    public CareerResponseDTO.BulkCreateResponseDTO toBulkCreateResponseDTO(List<Career> saved) {
+        List<CareerResponseDTO.CreateResponseDTO> list = toCreateResponseDTOList(saved);
+        return CareerResponseDTO.BulkCreateResponseDTO.builder()
+                .careers(list)
+                .createdCount(list.size())
                 .build();
     }
 
