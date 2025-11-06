@@ -97,7 +97,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "멘토 목록 조회 (전공 우선, 15개/페이지)",
+            summary = "멘토 목록 조회 (전공 우선 정렬, 15개/페이지)",
             description = """
                     로그인 사용자와 같은 전공인 멘토 우선정렬하여 보여집니다.<br><br>
                     페이징: page(기본 0), size(기본 15)<br>
