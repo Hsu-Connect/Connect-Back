@@ -39,7 +39,7 @@ public class LinkController {
     public ResponseEntity<LinkResponseDTO.LinkResultDTO> createLink(
             @Valid @RequestBody LinkRequestDTO.CreateLinkDTO request
     ) {
-        // 현재 개발 단계이므로 userId 고정
+        // 현재 개발 단계이므로 userId 고정함. 추후 수정 예정
         Long userId = 1L;
 
         LinkResponseDTO.LinkResultDTO result = linkService.createLink(userId, request);
