@@ -1,6 +1,5 @@
 package hansung.hansung_connect.domain.link.entity;
 
-import hansung.hansung_connect.domain.link.entity.enums.LinkCategory;
 import hansung.hansung_connect.domain.link.entity.enums.LinkType;
 import hansung.hansung_connect.domain.user.entity.User;
 import hansung.hansung_connect.global.common.BaseEntity;
@@ -32,10 +31,6 @@ public class Link extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private LinkCategory category;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private LinkType type;
 
     @Column(nullable = false)
@@ -44,4 +39,9 @@ public class Link extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    // 추후 도메인 확장 시 사용
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+//    private LinkCategory category;
 }
