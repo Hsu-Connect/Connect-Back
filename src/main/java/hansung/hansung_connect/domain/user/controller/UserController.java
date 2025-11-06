@@ -58,7 +58,7 @@ public class UserController {
             summary = "내 프로필 수정 화면(폼 채움용 기존정보)",
             description = """
                     프로필 수정 화면에 필요한 모든 기존값을 한 번에 반환합니다.
-                    - 기본정보: 학번, 이름, 전공, 멘토여부, 구직여부, 학사상태
+                    - 기본정보: 학번, 이름, 전공, 멘토여부, 구직여부, 재학상태
                     - 커리어 전체: id, companyName, position, jobType, employed, startYm, endYm
                     - 외부 링크 전체: id, type, url
                     """
