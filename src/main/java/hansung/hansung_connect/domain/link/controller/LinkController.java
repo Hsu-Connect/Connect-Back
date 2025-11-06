@@ -4,12 +4,15 @@ import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.link.dto.LinkRequestDTO;
 import hansung.hansung_connect.domain.link.dto.LinkResponseDTO;
 import hansung.hansung_connect.domain.link.service.LinkCommandService;
+import hansung.hansung_connect.domain.link.service.LinkQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LinkController {
 
     private final LinkCommandService linkCommandService;
+    private final LinkQueryService linkQueryService;
 
     @Operation(
             summary = "링크 추가",
@@ -89,4 +93,18 @@ public class LinkController {
         return ApiResponse.onSuccess(linkCommandService.createLinks(userId, request));
     }
 
+    @Operation(
+            summary = "외부링크 단건 조회",
+            description = """
+                    링크 ID로 단건 조회합니다.  
+                    - userId와 무관하게 누구나 조회 가능합니다.  
+                    - 응답에는 id, type, url이 포함됩니다.
+                    """
+    )
+    @GetMapping("/{linkId}")
+    public ApiResponse<LinkResponseDTO.LinkResultDTO> getLinkById(
+            @Parameter(description = "조회할 링크 ID") @PathVariable Long linkId
+    ) {
+        return ApiResponse.onSuccess(linkQueryService.getLink(linkId));
+    }
 }
