@@ -44,5 +44,22 @@ public class UserController {
 
         return ResponseEntity.ok(ApiResponse.onSuccess(result));
     }
+
+    @Operation(
+            summary = "내 프로필 수정 화면(폼 채움용 기존정보)",
+            description = """
+                    프로필 수정 화면에 필요한 모든 기존값을 한 번에 반환합니다.
+                    - 기본정보: 학번, 이름, 전공, 멘토여부, 구직여부, 학사상태
+                    - 커리어 전체: id, companyName, position, jobType, employed, startYm, endYm
+                    - 외부 링크 전체: id, type, url
+                    """
+    )
+    @GetMapping("/myprofile")
+    public ResponseEntity<ApiResponse<UserResponseDTO.MyProfileResponse>> getMyProfile() {
+        Long currentUserId = 1L; // TODO: 인증 연동 시 교체
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(userQueryService.getMyProfile(currentUserId))
+        );
+    }
 }
 
