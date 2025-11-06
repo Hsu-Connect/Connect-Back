@@ -2,9 +2,11 @@ package hansung.hansung_connect.domain.link.dto;
 
 import hansung.hansung_connect.domain.link.entity.enums.LinkType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
@@ -47,4 +49,16 @@ public class LinkRequestDTO {
         @URL(message = "유효한 URL 형식이 아닙니다.")
         private String url;
     }
+
+    @Getter
+    @NoArgsConstructor
+    public static class CreateLinksDTO {
+
+        @Schema(description = "추가할 링크 목록", required = true)
+        @NotNull(message = "링크 목록은 필수입니다.")
+        @Size(min = 1, max = 20, message = "링크는 1개 이상 20개 이하로 보내주세요.")
+        @Valid
+        private List<CreateLinkDTO> links;
+    }
+
 }

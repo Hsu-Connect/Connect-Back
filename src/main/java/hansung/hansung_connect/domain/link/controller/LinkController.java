@@ -1,8 +1,9 @@
 package hansung.hansung_connect.domain.link.controller;
 
+import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.link.dto.LinkRequestDTO;
 import hansung.hansung_connect.domain.link.dto.LinkResponseDTO;
-import hansung.hansung_connect.domain.link.service.LinkService;
+import hansung.hansung_connect.domain.link.service.LinkCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/links")
 public class LinkController {
 
-    private final LinkService linkService;
+    private final LinkCommandService linkCommandService;
 
     @Operation(
             summary = "링크 추가",
@@ -42,7 +43,7 @@ public class LinkController {
         // 현재 개발 단계이므로 userId 고정함. 추후 수정 예정
         Long userId = 1L;
 
-        LinkResponseDTO.LinkResultDTO result = linkService.createLink(userId, request);
+        LinkResponseDTO.LinkResultDTO result = linkCommandService.createLink(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -67,7 +68,25 @@ public class LinkController {
             @Valid @RequestBody LinkRequestDTO.UpdateLinkDTO request
     ) {
         Long userId = 1L; // 개발 단계라 userId 고정
-        LinkResponseDTO.LinkResultDTO result = linkService.updateLink(userId, linkId, request);
+        LinkResponseDTO.LinkResultDTO result = linkCommandService.updateLink(userId, linkId, request);
         return ResponseEntity.ok(result);
     }
+
+    @Operation(
+            summary = "외부링크 일괄 추가",
+            description = """
+                    여러 개의 외부 링크를 한 번에 추가합니다.
+                    - type: 링크 종류 (LINKEDIN, INSTAGRAM, GITHUB, NOTION, GOOGLE_DRIVE)  
+                    - url: 유효한 링크 주소 (예: https://github.com/username)  
+                    """
+    )
+    @PostMapping("/batch")
+    public ApiResponse<LinkResponseDTO.LinkResultListDTO> createLinksBatch(
+            @Valid @RequestBody LinkRequestDTO.CreateLinksDTO request
+    ) {
+        // 임시로 userId 고정
+        Long userId = 1L;
+        return ApiResponse.onSuccess(linkCommandService.createLinks(userId, request));
+    }
+
 }
