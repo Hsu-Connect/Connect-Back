@@ -72,6 +72,9 @@ public class User extends BaseEntity {
     @Column(name = "deactivated_at", nullable = true)
     private LocalDateTime deactivatedAt;
 
+    @Column(name = "email")
+    private String email;
+
     // 최초 카카오 로그인 시 사용
     public static User fromKakao(Long kakaoUserId) {
         User u = new User();
