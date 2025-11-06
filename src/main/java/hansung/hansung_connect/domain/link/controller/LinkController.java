@@ -2,7 +2,7 @@ package hansung.hansung_connect.domain.link.controller;
 
 import hansung.hansung_connect.domain.link.dto.LinkRequestDTO;
 import hansung.hansung_connect.domain.link.dto.LinkResponseDTO;
-import hansung.hansung_connect.domain.link.service.LinkService;
+import hansung.hansung_connect.domain.link.service.LinkCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/links")
 public class LinkController {
 
-    private final LinkService linkService;
+    private final LinkCommandService linkCommandService;
 
     @Operation(
             summary = "링크 추가",
@@ -42,7 +42,7 @@ public class LinkController {
         // 현재 개발 단계이므로 userId 고정함. 추후 수정 예정
         Long userId = 1L;
 
-        LinkResponseDTO.LinkResultDTO result = linkService.createLink(userId, request);
+        LinkResponseDTO.LinkResultDTO result = linkCommandService.createLink(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -67,7 +67,7 @@ public class LinkController {
             @Valid @RequestBody LinkRequestDTO.UpdateLinkDTO request
     ) {
         Long userId = 1L; // 개발 단계라 userId 고정
-        LinkResponseDTO.LinkResultDTO result = linkService.updateLink(userId, linkId, request);
+        LinkResponseDTO.LinkResultDTO result = linkCommandService.updateLink(userId, linkId, request);
         return ResponseEntity.ok(result);
     }
 }
