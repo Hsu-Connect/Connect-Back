@@ -1,5 +1,6 @@
 package hansung.hansung_connect.domain.link.controller;
 
+import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.link.dto.LinkRequestDTO;
 import hansung.hansung_connect.domain.link.dto.LinkResponseDTO;
 import hansung.hansung_connect.domain.link.service.LinkCommandService;
@@ -70,4 +71,22 @@ public class LinkController {
         LinkResponseDTO.LinkResultDTO result = linkCommandService.updateLink(userId, linkId, request);
         return ResponseEntity.ok(result);
     }
+
+    @Operation(
+            summary = "외부링크 일괄 추가",
+            description = """
+                    여러 개의 외부 링크를 한 번에 추가합니다.
+                    - type: 링크 종류 (LINKEDIN, INSTAGRAM, GITHUB, NOTION, GOOGLE_DRIVE)  
+                    - url: 유효한 링크 주소 (예: https://github.com/username)  
+                    """
+    )
+    @PostMapping("/batch")
+    public ApiResponse<LinkResponseDTO.LinkResultListDTO> createLinksBatch(
+            @Valid @RequestBody LinkRequestDTO.CreateLinksDTO request
+    ) {
+        // 임시로 userId 고정
+        Long userId = 1L;
+        return ApiResponse.onSuccess(linkCommandService.createLinks(userId, request));
+    }
+
 }
