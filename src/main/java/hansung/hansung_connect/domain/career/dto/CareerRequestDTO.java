@@ -43,6 +43,30 @@ public class CareerRequestDTO {
         private List<CreateRequestDTO> items;
     }
 
+    @Getter
+    @NoArgsConstructor
+    @Schema(name = "CareerUpdateRequest", title = "커리어 수정 요청(전체 대체)")
+    public static class UpdateRequestDTO {
+
+        @Schema(description = "회사명", example = "한성대학교", required = true)
+        private String companyName;
+
+        @Schema(description = "직무명", example = "백엔드 개발자", required = true)
+        private String position;
+
+        @Schema(description = "재직 형태", example = "PERMANENT", required = true)
+        private JobType jobType;
+
+        @Schema(description = "근무 시작 연월 (yyyy-MM 또는 yyyy.MM)", example = "2024-04", required = true)
+        private String startYm;
+
+        @Schema(description = "근무 종료 연월 (재직중이면 null)", example = "2024-08")
+        private String endYm;
+
+        @Schema(description = "재직 여부", example = "true", required = true)
+        private boolean employed;
+    }
+
 }
 
 
