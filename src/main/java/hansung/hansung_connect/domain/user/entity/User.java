@@ -106,4 +106,26 @@ public class User extends BaseEntity {
         this.deactivatedAt = LocalDateTime.now();
     }
 
+    public void updateBasicProfile(String studentNumber,
+                                   String name,
+                                   String major,
+                                   Boolean mentor,
+                                   Boolean jobSeeking) {
+        if (studentNumber != null) {
+            this.studentNumber = studentNumber;
+        }
+        if (name != null) {
+            this.name = name;
+        }
+        if (major != null) {
+            this.major = major;
+        }
+        if (mentor != null) {
+            this.mentor = mentor;
+        }
+        if (jobSeeking != null) {
+            this.jobSeeking = jobSeeking;
+        }
+    }
+
 }
