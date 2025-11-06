@@ -6,6 +6,7 @@ import hansung.hansung_connect.domain.link.converter.LinkConverter;
 import hansung.hansung_connect.domain.link.dto.LinkResponseDTO;
 import hansung.hansung_connect.domain.link.entity.Link;
 import hansung.hansung_connect.domain.link.repository.LinkRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,5 +24,11 @@ public class LinkQueryServiceImpl implements LinkQueryService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus.LINK_NOT_FOUND));
 
         return LinkConverter.toLinkResultDTO(link);
+    }
+
+    @Override
+    public LinkResponseDTO.LinkResultListDTO getMyLinks(Long userId) {
+        List<Link> links = linkRepository.findAllByUser_Id(userId);
+        return LinkConverter.toLinkResultListDTO(links);
     }
 }

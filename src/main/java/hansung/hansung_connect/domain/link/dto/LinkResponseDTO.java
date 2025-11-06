@@ -32,7 +32,7 @@ public class LinkResponseDTO {
     @AllArgsConstructor
     public static class LinkResultListDTO {
 
-        @Schema(description = "생성된 링크 결과 목록")
+        @Schema(description = "링크 결과 목록")
         private List<LinkResultDTO> links;
     }
 

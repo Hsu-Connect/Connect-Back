@@ -4,4 +4,6 @@ import hansung.hansung_connect.domain.link.dto.LinkResponseDTO;
 
 public interface LinkQueryService {
     LinkResponseDTO.LinkResultDTO getLink(Long linkId);
+
+    LinkResponseDTO.LinkResultListDTO getMyLinks(Long userId);
 }
