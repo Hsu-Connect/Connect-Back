@@ -63,4 +63,29 @@ public class UserResponseDTO {
         private LinkType type;
         private String url;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentorCard {
+        private Long userId;
+        private String name;
+        private String major;
+        private boolean jobSeeking;
+        private boolean employed;
+        private AcademicStatus academicStatus; // 재학/졸업 여부 표현
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentorListResponse {
+        private long totalMentorCount;   // 전체 멘토 수(필터/전공 무관, mentor=true & 활성)
+        private int page;                // 0-based
+        private int size;                // 요청한 페이지 크기(기본 15)
+        private int totalPages;
+        private List<MentorCard> items;  // 카드 15개
+    }
 }
