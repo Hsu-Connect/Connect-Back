@@ -2,6 +2,7 @@ package hansung.hansung_connect.domain.career.dto;
 
 import hansung.hansung_connect.domain.career.entity.enums.JobType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +32,15 @@ public class CareerRequestDTO {
 
         @Schema(description = "재직 여부", example = "true")
         private boolean employed;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @Schema(name = "CareerBulkCreateRequest", title = "커리어 일괄 등록 요청")
+    public static class BatchCreateRequestDTO {
+
+        @Schema(description = "등록할 커리어 목록")
+        private List<CreateRequestDTO> items;
     }
 
 }

@@ -2,6 +2,7 @@ package hansung.hansung_connect.domain.career.dto;
 
 import hansung.hansung_connect.domain.career.entity.enums.JobType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,20 @@ public class CareerResponseDTO {
 
         @Schema(description = "근무 종료 연월 (재직중이면 null)", example = "2024-08")
         private String endYm;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(name = "CareerBulkCreateResponse", title = "커리어 일괄 등록 응답")
+    public static class BulkCreateResponseDTO {
+
+        @Schema(description = "생성된 커리어 목록")
+        private List<CreateResponseDTO> careers;
+
+        @Schema(description = "생성된 개수", example = "3")
+        private int createdCount;
     }
 }
 

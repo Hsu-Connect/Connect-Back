@@ -37,7 +37,8 @@ public enum ErrorStatus implements BaseErrorCode {
     CAREER_INVALID_YEARMONTH_FORMAT(HttpStatus.BAD_REQUEST, "CAREER4005", "연월 형식이 올바르지 않습니다. (예: 2024-04)"),
     CAREER_END_YM_FORBIDDEN_WHEN_EMPLOYED(HttpStatus.BAD_REQUEST, "CAREER4006", "재직중이면 종료 연월을 입력할 수 없습니다."),
     CAREER_END_YM_REQUIRED_WHEN_NOT_EMPLOYED(HttpStatus.BAD_REQUEST, "CAREER4007", "재직중이 아니면 종료 연월이 필요합니다."),
-    CAREER_END_YM_BEFORE_START(HttpStatus.BAD_REQUEST, "CAREER4008", "종료 연월은 시작 연월보다 앞설 수 없습니다.");
+    CAREER_END_YM_BEFORE_START(HttpStatus.BAD_REQUEST, "CAREER4008", "종료 연월은 시작 연월보다 앞설 수 없습니다."),
+    CAREER_BULK_EMPTY(HttpStatus.BAD_REQUEST, "CAREER4009", "추가할 커리어 항목이 비어 있습니다.");
 
 
     private final HttpStatus httpStatus;
