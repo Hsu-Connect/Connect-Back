@@ -56,4 +56,18 @@ public class Career extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void update(String companyName,
+                       String position,
+                       JobType jobType,
+                       boolean employed,
+                       YearMonth startYm,
+                       YearMonth endYm) {
+        this.companyName = companyName;
+        this.position = position;
+        this.jobType = jobType;
+        this.isEmployed = employed;
+        this.startYm = startYm;
+        this.endYm = endYm;
+    }
 }
