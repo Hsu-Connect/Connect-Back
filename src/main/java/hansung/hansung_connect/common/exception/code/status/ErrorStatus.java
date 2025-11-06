@@ -38,7 +38,9 @@ public enum ErrorStatus implements BaseErrorCode {
     CAREER_END_YM_FORBIDDEN_WHEN_EMPLOYED(HttpStatus.BAD_REQUEST, "CAREER4006", "재직중이면 종료 연월을 입력할 수 없습니다."),
     CAREER_END_YM_REQUIRED_WHEN_NOT_EMPLOYED(HttpStatus.BAD_REQUEST, "CAREER4007", "재직중이 아니면 종료 연월이 필요합니다."),
     CAREER_END_YM_BEFORE_START(HttpStatus.BAD_REQUEST, "CAREER4008", "종료 연월은 시작 연월보다 앞설 수 없습니다."),
-    CAREER_BULK_EMPTY(HttpStatus.BAD_REQUEST, "CAREER4009", "추가할 커리어 항목이 비어 있습니다.");
+    CAREER_BULK_EMPTY(HttpStatus.BAD_REQUEST, "CAREER4009", "추가할 커리어 항목이 비어 있습니다."),
+    CAREER_NOT_FOUND(HttpStatus.BAD_REQUEST, "CAREER4007", "해당 커리어를 찾을 수 없습니다."),
+    CAREER_FORBIDDEN(HttpStatus.FORBIDDEN, "CAREER4008", "해당 커리어에 대한 수정 권한이 없습니다.");
 
 
     private final HttpStatus httpStatus;
