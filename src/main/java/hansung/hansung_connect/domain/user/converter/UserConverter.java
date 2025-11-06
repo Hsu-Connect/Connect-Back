@@ -1,11 +1,19 @@
 package hansung.hansung_connect.domain.user.converter;
 
+import hansung.hansung_connect.domain.career.entity.Career;
+import hansung.hansung_connect.domain.link.entity.Link;
 import hansung.hansung_connect.domain.user.dto.UserResponseDTO;
 import hansung.hansung_connect.domain.user.entity.User;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserConverter {
+    private static final DateTimeFormatter YM_FORMAT = DateTimeFormatter.ofPattern("yyyy.MM");
+
     public UserResponseDTO.SummaryCardResponse toSummaryCardResponse(User user, boolean employed) {
         return UserResponseDTO.SummaryCardResponse.builder()
                 .userId(user.getId())
@@ -28,5 +36,45 @@ public class UserConverter {
             return "";
         }
         return trimmed.substring(0, 2);
+    }
+
+    public UserResponseDTO.MyProfileResponse toMyProfileResponse(
+            User user, List<Career> careers, List<Link> links) {
+
+        return UserResponseDTO.MyProfileResponse.builder()
+                .userId(user.getId())
+                .studentNumber(user.getStudentNumber())
+                .name(user.getName())
+                .major(user.getMajor())
+                .mentor(user.isMentor())
+                .jobSeeking(user.isJobSeeking())
+                .academicStatus(user.getAcademicStatus())
+                .careers(careers.stream().map(this::toCareerItem).collect(Collectors.toList()))
+                .links(links.stream().map(this::toLinkItem).collect(Collectors.toList()))
+                .build();
+    }
+
+    private UserResponseDTO.CareerItem toCareerItem(Career c) {
+        return UserResponseDTO.CareerItem.builder()
+                .id(c.getId())
+                .companyName(c.getCompanyName())
+                .position(c.getPosition())
+                .jobType(c.getJobType())
+                .employed(c.isEmployed())
+                .startYm(formatYm(c.getStartYm()))
+                .endYm(formatYm(c.getEndYm()))
+                .build();
+    }
+
+    private UserResponseDTO.LinkItem toLinkItem(Link l) {
+        return UserResponseDTO.LinkItem.builder()
+                .id(l.getId())
+                .type(l.getType())
+                .url(l.getUrl())
+                .build();
+    }
+
+    private String formatYm(YearMonth ym) {
+        return ym == null ? null : ym.format(YM_FORMAT);
     }
 }
