@@ -70,6 +70,16 @@ public class PostConverter {
                 .build();
     }
 
+    public PostResponseDto.PostSummaryListResponse toPostSummaryListResponse(Page<Post> postPage) {
+        List<PostResponseDto.PostSummaryResponse> posts = postPage.getContent().stream()
+                .map(this::toPostSummaryResponse)
+                .toList();
+
+        return PostResponseDto.PostSummaryListResponse.builder()
+                .posts(posts)
+                .build();
+    }
+
     public PostResponseDto.PostListResponse toPostListResponse(Page<Post> postPage) {
         List<PostResponseDto.PostSummaryResponse> posts = postPage.getContent().stream()
                 .map(this::toPostSummaryResponse)
