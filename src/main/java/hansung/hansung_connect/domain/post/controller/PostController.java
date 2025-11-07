@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -120,6 +121,7 @@ public class PostController {
             summary = "게시글 수정",
             description = """
                     게시글을 수정하는 API입니다. 제목, 내용 중 수정된 부분만 전달
+                    Path Variable로 게시글 아이디를 입력해주세요.
                     -title: 게시글 제목, null 허용
                     -body: 게시글 내용 , null 허용
                     """
@@ -133,4 +135,22 @@ public class PostController {
 
         return ApiResponse.onSuccess(postCommandService.updatePost(userId, postId, request));
     }
+
+    @DeleteMapping("/{postId}")
+    @Operation(
+            summary = "게시글 삭제",
+            description = """
+                    게시글을 삭제 API입니다.
+                    Path Variable로 게시글 아이디를 입력해주세요.
+                    """
+    )
+    public ApiResponse<Void> deletePost(
+            @PathVariable("postId") Long postId
+    ) {
+
+        Long userId = 1L;
+        postCommandService.deletePost(userId, postId);
+        return ApiResponse.onSuccess(null);
+    }
+
 }
