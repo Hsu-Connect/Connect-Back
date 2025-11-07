@@ -31,6 +31,12 @@ public class PostConverter {
                 .build();
     }
 
+    public PostResponseDto.PostUpdateResponse toPostUpdateResponse(Post post) {
+        return PostResponseDto.PostUpdateResponse.builder()
+                .postId(post.getId())
+                .build();
+    }
+
     public PostResponseDto.PostResponse toPostResponse(Post post, Long currentUserId, List<PostCommentResponse> commentResponses) {
         return PostResponseDto.PostResponse.builder()
                 .id(post.getId())

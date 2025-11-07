@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -112,5 +113,24 @@ public class PostController {
     )
     public ApiResponse<PostResponseDto.PostSummaryListResponse> getLatestPromotionPosts() {
         return ApiResponse.onSuccess(postQueryService.getLatestPromotionPosts());
+    }
+
+    @PatchMapping("/{postId}")
+    @Operation(
+            summary = "게시글 수정",
+            description = """
+                    게시글을 수정하는 API입니다. 제목, 내용 중 수정된 부분만 전달
+                    -title: 게시글 제목, null 허용
+                    -body: 게시글 내용 , null 허용
+                    """
+    )
+    public ApiResponse<PostResponseDto.PostUpdateResponse> updatePost(
+            @PathVariable("postId") Long postId,
+            @RequestBody PostRequestDto.PostUpdateRequest request
+    ) {
+
+        Long userId = 1L;
+
+        return ApiResponse.onSuccess(postCommandService.updatePost(userId, postId, request));
     }
 }

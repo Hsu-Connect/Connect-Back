@@ -21,4 +21,16 @@ public class PostRequestDto {
         @Schema(description = "게시글 본문", example = "한성대에서 채용 공고가 올라왔습니다.")
         private String body;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @Schema(name = "PostUpdateRequest", title = "게시글 수정 요청")
+    public static class PostUpdateRequest {
+
+        @Schema(description = "게시글 제목", example = "한성대 채용 공고")
+        private String title;
+
+        @Schema(description = "게시글 본문", example = "한성대에서 채용 공고가 올라왔습니다.")
+        private String body;
+    }
 }
