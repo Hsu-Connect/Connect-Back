@@ -1,5 +1,8 @@
 package hansung.hansung_connect.auth.service;
 
+import hansung.hansung_connect.auth.converter.AuthConverter;
+import hansung.hansung_connect.auth.dto.AccountDeleteRequest;
+import hansung.hansung_connect.auth.dto.AccountDeleteResponse;
 import hansung.hansung_connect.auth.dto.LoginResponse;
 import hansung.hansung_connect.auth.dto.OnboardingRequest;
 import hansung.hansung_connect.auth.kakao.KakaoClient;
@@ -68,5 +71,29 @@ public class AuthService {
     @Transactional
     public void logout(Long userId, String refreshToken) {
         refreshTokenRepository.deleteByToken(refreshToken);
+    }
+
+    @Transactional
+    public AccountDeleteResponse withdraw(Long userId, AccountDeleteRequest req) {
+        // 1) 전달된 refreshToken이 유효한지, 그리고 주인이 본인인지 검증
+        var jwt = req.refreshToken();
+        if (!tokenProvider.validate(jwt) || !tokenProvider.isRefreshToken(jwt)) {
+            // 프로젝트의 전역 예외 체계에 맞게 치환 가능
+            throw new IllegalArgumentException("유효하지 않은 리프레시 토큰입니다.");
+        }
+        Long ownerId = tokenProvider.getUserId(jwt);
+        if (!ownerId.equals(userId)) {
+            throw new IllegalArgumentException("요청자와 토큰 소유자가 일치하지 않습니다.");
+        }
+
+        // 2) 리프레시 토큰 전부 삭제
+        refreshTokenRepository.deleteAllByUser_Id(userId);
+
+        // 3) 사용자 삭제(하드 딜리트)
+        User user = userRepository.findById(userId).orElseThrow();
+        userRepository.delete(user);
+
+        // 4) 응답
+        return AuthConverter.toDeleteResponse(userId);
     }
 }

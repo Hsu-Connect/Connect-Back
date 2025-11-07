@@ -1,17 +1,22 @@
 package hansung.hansung_connect.auth.controller;
 
+import hansung.hansung_connect.auth.dto.AccountDeleteRequest;
+import hansung.hansung_connect.auth.dto.AccountDeleteResponse;
 import hansung.hansung_connect.auth.dto.LoginRequest;
 import hansung.hansung_connect.auth.dto.LoginResponse;
 import hansung.hansung_connect.auth.dto.LogoutRequest;
 import hansung.hansung_connect.auth.dto.OnboardingRequest;
 import hansung.hansung_connect.auth.service.AuthService;
 import hansung.hansung_connect.auth.token.JwtAuthFilter.SimpleUserPrincipal;
+import hansung.hansung_connect.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,6 +76,23 @@ public class AuthController {
             @Parameter(hidden = true) @AuthenticationPrincipal SimpleUserPrincipal me,
             @RequestBody LogoutRequest req) {
         authService.logout(me.id(), req.refreshToken());
+    }
+
+    @Operation(
+            summary = "계정 탈퇴",
+            description = """
+                    현재 로그인한 사용자의 계정을 삭제합니다.
+                    - 전달받은 refreshToken의 소유자가 본인인지 확인 후 진행
+                    - 사용자 레코드 삭제 및 해당 사용자의 모든 RefreshToken 삭제
+                    """,
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @DeleteMapping("/withdraw")
+    public ApiResponse<AccountDeleteResponse> withdraw(
+            @AuthenticationPrincipal SimpleUserPrincipal me,
+            @Valid @RequestBody AccountDeleteRequest req
+    ) {
+        return ApiResponse.onSuccess(authService.withdraw(me.id(), req));
     }
 }
 
