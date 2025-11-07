@@ -39,4 +39,20 @@ public class CommentCommandServiceImpl implements CommentCommandService {
 
         return commentConverter.toCommentCreateResponse(comment);
     }
+
+    @Override
+    public void deleteComment(Long userId, Long commentId) {
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.COMMENT_NOT_FOUND));
+
+        User commentAuthor = comment.getUser();
+        User postAuthor = comment.getPost().getUser();
+
+        if(!commentAuthor.getId().equals(userId) && !postAuthor.getId().equals(userId)) {
+            throw new GeneralException(ErrorStatus.COMMENT_FORBIDDEN);
+        }
+
+        commentRepository.delete(comment);
+    }
 }
