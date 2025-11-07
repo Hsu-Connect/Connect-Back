@@ -28,7 +28,11 @@ public enum ErrorStatus implements BaseErrorCode {
     POST_QUERY_TYPE_EXCEPTION(HttpStatus.BAD_REQUEST, "POST4002", "게시글 조회 타입이 잘못되었습니다."),
     POST_LIST_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "POST4003", "게시글 리스트가 비어있습니다."),
     INVALID_PAGE_FOR_POPULAR(HttpStatus.BAD_REQUEST, "POST4004", "인기 게시글은 0번 페이지만 조회 가능합니다."),
-    POST_FORBIDDEN(HttpStatus.INTERNAL_SERVER_ERROR, "POST4005", "해당 게시글의 수정이 허용된 사용자가 아닙니다."),
+    POST_FORBIDDEN(HttpStatus.BAD_REQUEST, "POST4005", "해당 게시글의 권한이 없습니다."),
+
+    //댓글 관련 응답
+    COMMENT_NOT_FOUND(HttpStatus.BAD_REQUEST,"COMMENT4001","댓글을 찾을 수 없습니다."),
+    COMMENT_FORBIDDEN(HttpStatus.BAD_REQUEST,"COMMENT4002","해당 댓글의 권한이 없습니다."),
 
     // 커리어 관련 응답
     CAREER_COMPANY_REQUIRED(HttpStatus.BAD_REQUEST, "CAREER4001", "회사명은 필수입니다."),

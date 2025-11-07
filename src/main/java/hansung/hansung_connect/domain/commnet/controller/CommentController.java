@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +56,23 @@ public class CommentController {
         return ApiResponse.onSuccess(commentQueryService.getCommentsByUser(userId, page));
     }
 
+    @Operation(
+            summary = "댓글 삭제",
+            description = """
+            댓글을 삭제하는 API입니다.
+            Path Variable로 댓글 아이디를 입력해주세요.
+            - 게시글의 작성자인 경우 모든 댓글 삭제 가능
+            - 게시글의 작성자가 아닌 경우 자신의 댓글만 삭제 가능
+            """
+    )
+    @DeleteMapping
+    public ApiResponse<Void> deleteComment(
+            @PathVariable("commentId") Long commentId
+    ) {
 
+        Long userId = 1L;
+        commentCommandService.deleteComment(userId, commentId);
+        return ApiResponse.onSuccess(null);
+    }
 
 }
