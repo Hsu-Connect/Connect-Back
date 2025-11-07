@@ -4,10 +4,12 @@ import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.career.dto.CareerRequestDTO;
 import hansung.hansung_connect.domain.career.dto.CareerRequestDTO.BatchCreateRequestDTO;
 import hansung.hansung_connect.domain.career.dto.CareerResponseDTO;
+import hansung.hansung_connect.domain.career.dto.CareerResponseDTO.CreateResponseDTO;
 import hansung.hansung_connect.domain.career.service.CareerCommandService;
 import hansung.hansung_connect.domain.career.service.CareerQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -106,5 +108,15 @@ public class CareerController {
         return ApiResponse.onSuccess(careerQueryService.getCareer(careerId));
     }
 
+    @Operation(
+            summary = "내 커리어 전체 조회",
+            description = """
+                    현재 사용자(임시 userId=1L)의 모든 커리어를 조회합니다.<br>
+                    """
+    )
+    @GetMapping("/careers/mycareers")
+    public ApiResponse<List<CreateResponseDTO>> getMyCareers() {
+        return ApiResponse.onSuccess(careerQueryService.getMyCareers());
+    }
 }
 
