@@ -60,4 +60,17 @@ public class PostCommandServiceImpl implements PostCommandService {
         return postConverter.toPostUpdateResponse(post);
     }
 
+    @Override
+    public void deletePost(Long userId, Long postId) {
+
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.POST_NOT_FOUND));
+
+        if(!post.getUser().getId().equals(userId)) {
+            throw new GeneralException(ErrorStatus.POST_FORBIDDEN);
+        }
+
+        postRepository.delete(post);
+    }
+
 }
