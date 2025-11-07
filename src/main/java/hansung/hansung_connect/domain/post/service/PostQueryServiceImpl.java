@@ -8,6 +8,7 @@ import hansung.hansung_connect.domain.post.converter.PostConverter;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostListResponse;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostResponse;
+import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostTitleListResponse;
 import hansung.hansung_connect.domain.post.dto.enums.PostQueryType;
 import hansung.hansung_connect.domain.post.entity.Post;
 import hansung.hansung_connect.domain.post.entity.enums.PostType;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostQueryServiceImpl implements PostQueryService {
 
     private static final int PAGE_SIZE = 20;
+    private static final int MAIN_POPULAR_POST_SIZE = 5;
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
@@ -98,6 +100,23 @@ public class PostQueryServiceImpl implements PostQueryService {
         return posts;
     }
 
+    private Page<Post> getPopularPosts(int page, int size) {
+
+        if(page != 0) {
+            throw new GeneralException(ErrorStatus.INVALID_PAGE_FOR_POPULAR);
+        }
+
+        LocalDateTime threshold = LocalDateTime.now().minusHours(24);
+
+        Page<Post> posts = postRepository.findPopularPostsInLast24Hours(
+                List.of(PostType.FREE, PostType.PROMOTION),
+                threshold,
+                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "views"))
+        );
+
+        return posts;
+    }
+
     private Page<Post> getFreePosts(int page) {
 
         Page<Post> posts = postRepository.findByType(
@@ -142,4 +161,12 @@ public class PostQueryServiceImpl implements PostQueryService {
         return postConverter.toPostListResponse(posts);
     }
 
+    @Override
+    public PostTitleListResponse getPopularPosts() {
+
+        Page<Post> posts;
+        posts = getPopularPosts(0, MAIN_POPULAR_POST_SIZE);
+
+        return postConverter.toPostTitleListResponse(posts);
+    }
 }
