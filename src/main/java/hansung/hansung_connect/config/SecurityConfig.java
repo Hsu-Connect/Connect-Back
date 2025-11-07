@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/me/careers/**").permitAll()
                         .requestMatchers("/links/**").permitAll()
                         .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/careers/**").permitAll()
                         // 그 외는 인증 필요
                         .anyRequest().authenticated()
                 )
