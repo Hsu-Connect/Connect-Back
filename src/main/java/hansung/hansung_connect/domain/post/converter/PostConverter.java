@@ -82,4 +82,21 @@ public class PostConverter {
                 .totalElements(postPage.getTotalElements())
                 .build();
     }
+
+    public PostResponseDto.PostTitleListResponse toPostTitleListResponse(Page<Post> postPage) {
+        List<PostResponseDto.PostTitleResponse> posts = postPage.getContent().stream()
+                .map(this::toPostTitleResponse)
+                .toList();
+
+        return PostResponseDto.PostTitleListResponse.builder()
+                .posts(posts)
+                .build();
+    }
+
+    public PostResponseDto.PostTitleResponse toPostTitleResponse(Post post) {
+        return PostResponseDto.PostTitleResponse.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .build();
+    }
 }

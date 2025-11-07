@@ -119,4 +119,29 @@ public class PostResponseDto {
         private boolean mine;
 
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(name = "PostTitleListResponse", title = "게시글의 제목 리스트 응답")
+    public static class PostTitleListResponse {
+        @Schema(description = "게시글 ID", example = "123")
+        private List<PostTitleResponse> posts;
+
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(name = "PostTitleResponse", title = "게시글의 제목 응답")
+    public static class PostTitleResponse {
+        @Schema(description = "게시글 ID", example = "123")
+        private Long id;
+
+        @Schema(description = "게시글 제목", example = "실시간 심장병 질문 1위")
+        private String title;
+
+    }
 }

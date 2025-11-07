@@ -91,4 +91,16 @@ public class PostController {
         return ApiResponse.onSuccess(postQueryService.getPostsByUser(userId, page));
     }
 
+    @GetMapping("/popular")
+    @Operation(
+            summary = "메인화면 - 인기 게시글 조회",
+            description = """
+                    메인화면에서 인기 게시글 5개의 제목을 제공합니다.
+                    인기 게시글: 지난 24시간 동안 조회 수가 가장 높은 게시글
+                    """
+    )
+    public ApiResponse<PostResponseDto.PostTitleListResponse> getPopularPosts() {
+        return ApiResponse.onSuccess(postQueryService.getPopularPosts());
+    }
+
 }
