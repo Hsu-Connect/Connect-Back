@@ -76,6 +76,7 @@ public class UserController {
     @Operation(
             summary = "내 프로필(기본 정보) 부분수정",
             description = """
+                    `🔒 JWT 인증(토큰) 필요` <br>
                     학번, 이름, 전공, 멘토참여여부, 구직여부만 부분 수정합니다.
                     <br><br>
                     - PATCH 이므로 전달된 필드만 반영합니다(null은 무시)  
