@@ -4,7 +4,9 @@ import hansung.hansung_connect.common.exception.GeneralException;
 import hansung.hansung_connect.common.exception.code.status.ErrorStatus;
 import hansung.hansung_connect.domain.post.converter.PostConverter;
 import hansung.hansung_connect.domain.post.dto.PostRequestDto.PostCreateRequest;
+import hansung.hansung_connect.domain.post.dto.PostRequestDto.PostUpdateRequest;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostCreateResponse;
+import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostUpdateResponse;
 import hansung.hansung_connect.domain.post.entity.Post;
 import hansung.hansung_connect.domain.post.repository.PostRepository;
 import hansung.hansung_connect.domain.user.entity.User;
@@ -31,6 +33,31 @@ public class PostCommandServiceImpl implements PostCommandService {
         Post post = postRepository.save(postConverter.toPost(user, request));
 
         return postConverter.toPostCreateResponse(post);
+    }
+
+    @Override
+    public PostUpdateResponse updatePost(Long userId, Long postId, PostUpdateRequest request) {
+
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.POST_NOT_FOUND));
+
+        if(!post.getUser().getId().equals(userId)) {
+            throw new GeneralException(ErrorStatus.POST_FORBIDDEN);
+        }
+
+        String title = request.getTitle();
+        if(title != null) {
+            post.updateTitle(title);
+        }
+
+        String body = request.getTitle();
+        if(body != null) {
+            post.updateBody(body);
+        }
+
+        postRepository.save(post);
+
+        return postConverter.toPostUpdateResponse(post);
     }
 
 }

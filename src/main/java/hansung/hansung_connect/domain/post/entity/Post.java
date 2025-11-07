@@ -48,4 +48,12 @@ public class Post extends BaseEntity {
     public void increaseViews() {
         views += 1;
     }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateBody(String body) {
+        this.body = body;
+    }
 }

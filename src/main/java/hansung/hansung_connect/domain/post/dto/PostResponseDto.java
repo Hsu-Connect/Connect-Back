@@ -23,6 +23,18 @@ public class PostResponseDto {
 
     @Getter
     @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Schema(name = "PostUpdateResponse", title = "게시글 수정 응답")
+    public static class PostUpdateResponse {
+
+        @Schema(description = "게시글 ID", example = "123")
+        private Long postId;
+
+    }
+
+    @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @Schema(name = "PostSummaryResponse", title = "게시글 요약 정보")
