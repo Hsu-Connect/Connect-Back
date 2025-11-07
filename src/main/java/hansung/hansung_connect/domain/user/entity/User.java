@@ -93,7 +93,7 @@ public class User extends BaseEntity {
                                    String studentNumber,
                                    AcademicStatus status,
                                    boolean jobSeeking,
-                                   boolean mentor) {
+                                   boolean mentor, String email) {
         this.name = name;
         this.major = major;
         this.studentNumber = studentNumber;
@@ -101,6 +101,7 @@ public class User extends BaseEntity {
         this.jobSeeking = jobSeeking;
         this.mentor = mentor;
         this.onboarded = true;
+        this.email = email;
     }
 
     // 탈퇴,비활성화

@@ -13,4 +13,5 @@ public class OnboardingRequest {
     private AcademicStatus academicStatus;
     private boolean jobSeeking;
     private boolean mentor;
+    private String email;
 }
