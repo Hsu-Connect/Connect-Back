@@ -103,4 +103,14 @@ public class PostController {
         return ApiResponse.onSuccess(postQueryService.getPopularPosts());
     }
 
+    @GetMapping("/promotion")
+    @Operation(
+            summary = "메인화면 - 최신 홍보 게시글 조회",
+            description = """
+                    메인화면에서 최신 홍보 게시글 5개의 요약 응답을 제공합니다.
+                    """
+    )
+    public ApiResponse<PostResponseDto.PostSummaryListResponse> getLatestPromotionPosts() {
+        return ApiResponse.onSuccess(postQueryService.getLatestPromotionPosts());
+    }
 }

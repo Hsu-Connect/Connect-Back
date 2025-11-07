@@ -9,4 +9,5 @@ public interface PostQueryService {
     PostResponseDto.PostListResponse getPostsByType(PostQueryType type, int page);
     PostResponseDto.PostListResponse getPostsByUser(Long userId, int page);
     PostResponseDto.PostTitleListResponse getPopularPosts();
+    PostResponseDto.PostSummaryListResponse getLatestPromotionPosts();
 }

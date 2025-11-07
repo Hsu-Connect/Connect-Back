@@ -50,6 +50,16 @@ public class PostResponseDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    @Schema(name = "PostSummaryListResponse", title = "게시글의 요약 정보 리스트 응답")
+    public static class PostSummaryListResponse {
+        @Schema(description = "게시글 ID", example = "123")
+        private List<PostSummaryResponse> posts;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Schema(name = "PostListResponse", title = "게시글 목록 조회 응답")
     public static class PostListResponse {
         @Schema(description = "게시글 요약 정보")

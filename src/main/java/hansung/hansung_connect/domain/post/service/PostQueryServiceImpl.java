@@ -8,6 +8,7 @@ import hansung.hansung_connect.domain.post.converter.PostConverter;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostListResponse;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostResponse;
+import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostSummaryListResponse;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostTitleListResponse;
 import hansung.hansung_connect.domain.post.dto.enums.PostQueryType;
 import hansung.hansung_connect.domain.post.entity.Post;
@@ -30,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostQueryServiceImpl implements PostQueryService {
 
     private static final int PAGE_SIZE = 20;
-    private static final int MAIN_POPULAR_POST_SIZE = 5;
+    private static final int MAIN_PAGE_POST_SIZE = 5;
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
@@ -137,6 +138,16 @@ public class PostQueryServiceImpl implements PostQueryService {
         return posts;
     }
 
+    private Page<Post> getPromotionPosts(int page, int size) {
+
+        Page<Post> posts = postRepository.findByType(
+                PostType.PROMOTION,
+                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
+        );
+
+        return posts;
+    }
+
     private Page<Post> getNoticePosts(int page) {
 
         Page<Post> posts = postRepository.findByType(
@@ -165,8 +176,17 @@ public class PostQueryServiceImpl implements PostQueryService {
     public PostTitleListResponse getPopularPosts() {
 
         Page<Post> posts;
-        posts = getPopularPosts(0, MAIN_POPULAR_POST_SIZE);
+        posts = getPopularPosts(0, MAIN_PAGE_POST_SIZE);
 
         return postConverter.toPostTitleListResponse(posts);
+    }
+
+    @Override
+    public PostSummaryListResponse getLatestPromotionPosts() {
+
+         Page<Post> posts;
+         posts = getPromotionPosts(0, MAIN_PAGE_POST_SIZE);
+
+         return postConverter.toPostSummaryListResponse(posts);
     }
 }
