@@ -61,7 +61,7 @@ public class AuthService {
         User user = userRepository.findById(userId).orElseThrow();
         user.completeOnboarding(
                 req.getName(), req.getMajor(), req.getStudentNumber(),
-                req.getAcademicStatus(), req.isJobSeeking(), req.isMentor()
+                req.getAcademicStatus(), req.isJobSeeking(), req.isMentor(), req.getEmail()
         );
     }
 
