@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 .description("Hansung Connect API 명세서")
                 .version("1.0.0");
 
-        String jwtSchemeName = "JWT TOKEN";
+        String jwtSchemeName = "bearerAuth";
 
         SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtSchemeName);
 
