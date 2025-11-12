@@ -1,5 +1,6 @@
 package hansung.hansung_connect.domain.link.controller;
 
+import hansung.hansung_connect.auth.token.JwtAuthFilter;
 import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.link.dto.LinkRequestDTO;
 import hansung.hansung_connect.domain.link.dto.LinkResponseDTO;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,12 +44,10 @@ public class LinkController {
     )
     @PostMapping
     public ResponseEntity<LinkResponseDTO.LinkResultDTO> createLink(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @Valid @RequestBody LinkRequestDTO.CreateLinkDTO request
     ) {
-        // 현재 개발 단계이므로 userId 고정함. 추후 수정 예정
-        Long userId = 1L;
-
-        LinkResponseDTO.LinkResultDTO result = linkCommandService.createLink(userId, request);
+        LinkResponseDTO.LinkResultDTO result = linkCommandService.createLink(me.id(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -68,11 +68,11 @@ public class LinkController {
     )
     @PutMapping("/{linkId}")
     public ResponseEntity<LinkResponseDTO.LinkResultDTO> updateLink(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @PathVariable Long linkId,
             @Valid @RequestBody LinkRequestDTO.UpdateLinkDTO request
     ) {
-        Long userId = 1L; // 개발 단계라 userId 고정
-        LinkResponseDTO.LinkResultDTO result = linkCommandService.updateLink(userId, linkId, request);
+        LinkResponseDTO.LinkResultDTO result = linkCommandService.updateLink(me.id(), linkId, request);
         return ResponseEntity.ok(result);
     }
 
@@ -86,11 +86,10 @@ public class LinkController {
     )
     @PostMapping("/batch")
     public ApiResponse<LinkResponseDTO.LinkResultListDTO> createLinksBatch(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @Valid @RequestBody LinkRequestDTO.CreateLinksDTO request
     ) {
-        // 임시로 userId 고정
-        Long userId = 1L;
-        return ApiResponse.onSuccess(linkCommandService.createLinks(userId, request));
+        return ApiResponse.onSuccess(linkCommandService.createLinks(me.id(), request));
     }
 
     @Operation(
@@ -112,12 +111,12 @@ public class LinkController {
             summary = "내 외부링크 전체 조회",
             description = """
                     현재 로그인 사용자의 모든 외부링크를 조회합니다.
-                    - 임시로 userId=1L 고정 (추후 SecurityContext 연동 예정)
                     """
     )
     @GetMapping("/mylinks")
-    public ApiResponse<LinkResponseDTO.LinkResultListDTO> getMyLinks() {
-        Long userId = 1L; // TODO: SecurityContext에서 꺼내도록 변경
-        return ApiResponse.onSuccess(linkQueryService.getMyLinks(userId));
+    public ApiResponse<LinkResponseDTO.LinkResultListDTO> getMyLinks(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me
+    ) {
+        return ApiResponse.onSuccess(linkQueryService.getMyLinks(me.id()));
     }
 }

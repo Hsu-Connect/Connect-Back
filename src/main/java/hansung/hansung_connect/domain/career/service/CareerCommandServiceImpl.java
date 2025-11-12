@@ -38,10 +38,10 @@ public class CareerCommandServiceImpl implements CareerCommandService {
     private final UserRepository userRepository;
 
     @Override
-    public CareerResponseDTO.CreateResponseDTO createCareer(CareerRequestDTO.CreateRequestDTO requestDTO) {
+    public CareerResponseDTO.CreateResponseDTO createCareer(Long currentUserId,
+                                                            CareerRequestDTO.CreateRequestDTO requestDTO) {
         validateBusiness(requestDTO);
 
-        Long currentUserId = 1L; // TODO: 추후 SecurityContext로 교체
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
 
@@ -50,7 +50,7 @@ public class CareerCommandServiceImpl implements CareerCommandService {
     }
 
     @Override
-    public CareerResponseDTO.BulkCreateResponseDTO createCareers(BatchCreateRequestDTO requestDTO) {
+    public CareerResponseDTO.BulkCreateResponseDTO createCareers(Long currentUserId, BatchCreateRequestDTO requestDTO) {
         if (requestDTO == null || requestDTO.getItems() == null || requestDTO.getItems().isEmpty()) {
             throw new GeneralException(CAREER_BULK_EMPTY);
         }
@@ -58,7 +58,6 @@ public class CareerCommandServiceImpl implements CareerCommandService {
         // 각 항목 검증
         requestDTO.getItems().forEach(this::validateBusiness);
 
-        Long currentUserId = 1L; // TODO: 추후 SecurityContext로 교체
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
 
@@ -70,12 +69,10 @@ public class CareerCommandServiceImpl implements CareerCommandService {
 
     // 커리어 수정(전체 대체)
     @Override
-    public CareerResponseDTO.UpdateResponseDTO updateCareer(Long careerId,
+    public CareerResponseDTO.UpdateResponseDTO updateCareer(Long currentUserId, Long careerId,
                                                             CareerRequestDTO.UpdateRequestDTO requestDTO) {
         validateBusiness(requestDTO);
 
-        // TODO: SecurityContext로 대체
-        Long currentUserId = 1L;
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
 

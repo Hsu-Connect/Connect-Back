@@ -1,5 +1,7 @@
 package hansung.hansung_connect.domain.career.controller;
 
+import hansung.hansung_connect.auth.token.JwtAuthFilter;
+import hansung.hansung_connect.auth.token.JwtAuthFilter.SimpleUserPrincipal;
 import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.career.dto.CareerRequestDTO;
 import hansung.hansung_connect.domain.career.dto.CareerRequestDTO.BatchCreateRequestDTO;
@@ -8,9 +10,11 @@ import hansung.hansung_connect.domain.career.dto.CareerResponseDTO.CreateRespons
 import hansung.hansung_connect.domain.career.service.CareerCommandService;
 import hansung.hansung_connect.domain.career.service.CareerQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,8 +42,9 @@ public class CareerController {
     )
     @PostMapping("/careers")
     public ApiResponse<CareerResponseDTO.CreateResponseDTO> createCareer(
+            @Parameter(hidden = true) @AuthenticationPrincipal SimpleUserPrincipal me,
             @RequestBody CareerRequestDTO.CreateRequestDTO requestDTO) {
-        return ApiResponse.onSuccess(careerCommandService.createCareer(requestDTO));
+        return ApiResponse.onSuccess(careerCommandService.createCareer(me.id(), requestDTO));
     }
 
     @Operation(
@@ -53,8 +58,9 @@ public class CareerController {
     )
     @PostMapping("/careers/batch")
     public ApiResponse<CareerResponseDTO.BulkCreateResponseDTO> createCareers(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @RequestBody BatchCreateRequestDTO requestDTO) {
-        return ApiResponse.onSuccess(careerCommandService.createCareers(requestDTO));
+        return ApiResponse.onSuccess(careerCommandService.createCareers(me.id(), requestDTO));
     }
 
     @Operation(
@@ -71,9 +77,10 @@ public class CareerController {
     )
     @PutMapping("/careers/{careerId}")
     public ApiResponse<CareerResponseDTO.UpdateResponseDTO> updateCareer(
+            @Parameter(hidden = true) @AuthenticationPrincipal SimpleUserPrincipal me,
             @PathVariable Long careerId,
             @RequestBody CareerRequestDTO.UpdateRequestDTO request) {
-        return ApiResponse.onSuccess(careerCommandService.updateCareer(careerId, request));
+        return ApiResponse.onSuccess(careerCommandService.updateCareer(me.id(), careerId, request));
     }
 
     @Operation(
@@ -92,11 +99,12 @@ public class CareerController {
     @Operation(
             summary = "내 커리어 전체 조회",
             description = """
-                    현재 사용자(임시 userId=1L)의 모든 커리어를 조회합니다.
+                    현재 사용자의 모든 커리어를 조회합니다.
                     """
     )
     @GetMapping("/careers/mycareers")
-    public ApiResponse<List<CreateResponseDTO>> getMyCareers() {
-        return ApiResponse.onSuccess(careerQueryService.getMyCareers());
+    public ApiResponse<List<CreateResponseDTO>> getMyCareers(
+            @Parameter(hidden = true) @AuthenticationPrincipal SimpleUserPrincipal me) {
+        return ApiResponse.onSuccess(careerQueryService.getMyCareers(me.id()));
     }
 }

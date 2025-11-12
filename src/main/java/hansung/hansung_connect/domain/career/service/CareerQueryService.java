@@ -7,7 +7,7 @@ import java.util.List;
 public interface CareerQueryService {
     CareerResponseDTO.CreateResponseDTO getCareer(Long careerId);
 
-    List<CreateResponseDTO> getMyCareers();
+    List<CreateResponseDTO> getMyCareers(Long userId);
 
 }
 

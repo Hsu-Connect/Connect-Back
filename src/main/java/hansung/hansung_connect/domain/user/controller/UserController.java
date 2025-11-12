@@ -1,5 +1,6 @@
 package hansung.hansung_connect.domain.user.controller;
 
+import hansung.hansung_connect.auth.token.JwtAuthFilter;
 import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.user.converter.UserConverter;
 import hansung.hansung_connect.domain.user.dto.UserRequestDTO;
@@ -8,10 +9,12 @@ import hansung.hansung_connect.domain.user.dto.UserResponseDTO.SummaryCardRespon
 import hansung.hansung_connect.domain.user.service.UserCommandService;
 import hansung.hansung_connect.domain.user.service.UserQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,12 +49,11 @@ public class UserController {
                     """
     )
     @GetMapping("/summary")
-    public ResponseEntity<ApiResponse<SummaryCardResponse>> getMySummaryCard() {
-        // TODO: 실제 배포 시 SecurityContext에서 userId 추출
-        Long currentUserId = 1L;
-
+    public ResponseEntity<ApiResponse<SummaryCardResponse>> getMySummaryCard(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me
+    ) {
         UserResponseDTO.SummaryCardResponse result =
-                userQueryService.getMySummaryCard(currentUserId);
+                userQueryService.getMySummaryCard(me.id());
 
         return ResponseEntity.ok(ApiResponse.onSuccess(result));
     }
@@ -66,10 +68,11 @@ public class UserController {
                     """
     )
     @GetMapping("/myprofile")
-    public ResponseEntity<ApiResponse<UserResponseDTO.MyProfileResponse>> getMyProfile() {
-        Long currentUserId = 1L; // TODO: 인증 연동 시 교체
+    public ResponseEntity<ApiResponse<UserResponseDTO.MyProfileResponse>> getMyProfile(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me
+    ) {
         return ResponseEntity.ok(
-                ApiResponse.onSuccess(userQueryService.getMyProfile(currentUserId))
+                ApiResponse.onSuccess(userQueryService.getMyProfile(me.id()))
         );
     }
 
@@ -85,15 +88,13 @@ public class UserController {
     )
     @PatchMapping("/myprofile")
     public ResponseEntity<ApiResponse<Void>> updateMyBasicProfile(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @Valid @RequestBody UserRequestDTO.UpdateBasicProfileRequest request
     ) {
-        Long currentUserId = 1L; // TODO: 인증 연동 후 SecurityContext에서 추출
-
         // 입력 정규화(공백 제거 등)
         UserRequestDTO.UpdateBasicProfileRequest normalized = userConverter.normalize(request);
 
-        // TODO: 실제 업데이트는 Command 서비스에서 처리 (예시)
-        userCommandService.updateMyBasicProfile(currentUserId, normalized);
+        userCommandService.updateMyBasicProfile(me.id(), normalized);
 
         return ResponseEntity.ok(ApiResponse.onSuccess(null));
     }
@@ -110,17 +111,13 @@ public class UserController {
     )
     @GetMapping("/mentors")
     public ResponseEntity<ApiResponse<UserResponseDTO.MentorListResponse>> getMentors(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size
     ) {
-        // 개발 단계: 하드코딩. 추후 SecurityContext에서 꺼내기
-        Long currentUserId = 1L;
-
-        // 강제 size=15 정책 사용 시 고정
-        // size = 15;
 
         UserResponseDTO.MentorListResponse result =
-                userQueryService.getMentors(currentUserId, page, size);
+                userQueryService.getMentors(me.id(), page, size);
 
         return ResponseEntity.ok(ApiResponse.onSuccess(result));
     }

@@ -1,5 +1,6 @@
 package hansung.hansung_connect.domain.post.controller;
 
+import hansung.hansung_connect.auth.token.JwtAuthFilter;
 import hansung.hansung_connect.common.response.ApiResponse;
 import hansung.hansung_connect.domain.post.dto.PostRequestDto;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,23 +37,23 @@ public class PostController {
     )
     @PostMapping("")
     public ApiResponse<PostResponseDto.PostCreateResponse> createPost(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @RequestBody PostRequestDto.PostCreateRequest request
     ) {
-        Long userId = 1L;
-        return ApiResponse.onSuccess(postCommandService.createPost(userId, request));
+        return ApiResponse.onSuccess(postCommandService.createPost(me.id(), request));
     }
 
     @Operation(
             summary = "게시글 리스트 조회",
             description = """
-            게시글 유형별 리스트를 조회합니다.
-            - popular: 인기글
-            - free: 자유 게시판
-            - promotion: 홍보 게시판
-            - notice: 공지 게시글
-            
-            한 페이지에 게시글의 수는 20입니다.
-            """
+                    게시글 유형별 리스트를 조회합니다.
+                    - popular: 인기글
+                    - free: 자유 게시판
+                    - promotion: 홍보 게시판
+                    - notice: 공지 게시글
+                    
+                    한 페이지에 게시글의 수는 20입니다.
+                    """
     )
     @GetMapping("")
     public ApiResponse<PostResponseDto.PostListResponse> getPosts(
@@ -70,27 +72,27 @@ public class PostController {
     )
     @GetMapping("/{postId}")
     public ApiResponse<PostResponseDto.PostResponse> getPost(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @PathVariable("postId") Long postId
     ) {
-        Long userId = 1L;
-        return ApiResponse.onSuccess(postQueryService.getPost(userId, postId));
+        return ApiResponse.onSuccess(postQueryService.getPost(me.id(), postId));
     }
 
     @Operation(
             summary = "내 게시글 리스트 조회",
             description = """
-            작성한 게시글의 리스트를 조회하는 API입니다.
-            
-            한 페이지에 게시글의 수는 20입니다.
-            """
+                    작성한 게시글의 리스트를 조회하는 API입니다.
+                    
+                    한 페이지에 게시글의 수는 20입니다.
+                    """
     )
     @GetMapping("/my")
     public ApiResponse<PostResponseDto.PostListResponse> getMyPosts(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @Parameter(description = "페이지 번호")
             @RequestParam(defaultValue = "0") int page
     ) {
-        Long userId = 1L;
-        return ApiResponse.onSuccess(postQueryService.getPostsByUser(userId, page));
+        return ApiResponse.onSuccess(postQueryService.getPostsByUser(me.id(), page));
     }
 
     @GetMapping("/popular")
@@ -127,13 +129,11 @@ public class PostController {
                     """
     )
     public ApiResponse<PostResponseDto.PostUpdateResponse> updatePost(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @PathVariable("postId") Long postId,
             @RequestBody PostRequestDto.PostUpdateRequest request
     ) {
-
-        Long userId = 1L;
-
-        return ApiResponse.onSuccess(postCommandService.updatePost(userId, postId, request));
+        return ApiResponse.onSuccess(postCommandService.updatePost(me.id(), postId, request));
     }
 
     @DeleteMapping("/{postId}")
@@ -145,11 +145,10 @@ public class PostController {
                     """
     )
     public ApiResponse<Void> deletePost(
+            @Parameter(hidden = true) @AuthenticationPrincipal JwtAuthFilter.SimpleUserPrincipal me,
             @PathVariable("postId") Long postId
     ) {
-
-        Long userId = 1L;
-        postCommandService.deletePost(userId, postId);
+        postCommandService.deletePost(me.id(), postId);
         return ApiResponse.onSuccess(null);
     }
 

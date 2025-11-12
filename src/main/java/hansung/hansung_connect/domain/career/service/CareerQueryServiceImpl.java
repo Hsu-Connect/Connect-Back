@@ -33,8 +33,7 @@ public class CareerQueryServiceImpl implements CareerQueryService {
     }
 
     @Override
-    public List<CareerResponseDTO.CreateResponseDTO> getMyCareers() {
-        Long currentUserId = 1L; // TODO: 추후 SecurityContext로 대체
+    public List<CareerResponseDTO.CreateResponseDTO> getMyCareers(Long currentUserId) {
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new GeneralException(USER_NOT_FOUND));
 
