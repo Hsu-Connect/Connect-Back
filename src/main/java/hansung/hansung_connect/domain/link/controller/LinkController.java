@@ -111,7 +111,6 @@ public class LinkController {
             summary = "내 외부링크 전체 조회",
             description = """
                     현재 로그인 사용자의 모든 외부링크를 조회합니다.
-                    - 임시로 userId=1L 고정 (추후 SecurityContext 연동 예정)
                     """
     )
     @GetMapping("/mylinks")
