@@ -1,6 +1,6 @@
 package hansung.hansung_connect.domain.post.converter;
 
-import hansung.hansung_connect.domain.commnet.entity.Comment;
+import hansung.hansung_connect.domain.comment.entity.Comment;
 import hansung.hansung_connect.domain.post.dto.PostRequestDto;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostCommentResponse;
@@ -37,7 +37,8 @@ public class PostConverter {
                 .build();
     }
 
-    public PostResponseDto.PostResponse toPostResponse(Post post, Long currentUserId, List<PostCommentResponse> commentResponses) {
+    public PostResponseDto.PostResponse toPostResponse(Post post, Long currentUserId,
+                                                       List<PostCommentResponse> commentResponses) {
         return PostResponseDto.PostResponse.builder()
                 .id(post.getId())
                 .author(post.getUser().getName())

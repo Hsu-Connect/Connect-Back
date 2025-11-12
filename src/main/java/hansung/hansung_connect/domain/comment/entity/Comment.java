@@ -1,8 +1,8 @@
-package hansung.hansung_connect.domain.commnet.entity;
+package hansung.hansung_connect.domain.comment.entity;
 
-import hansung.hansung_connect.global.common.BaseEntity;
 import hansung.hansung_connect.domain.post.entity.Post;
 import hansung.hansung_connect.domain.user.entity.User;
+import hansung.hansung_connect.global.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

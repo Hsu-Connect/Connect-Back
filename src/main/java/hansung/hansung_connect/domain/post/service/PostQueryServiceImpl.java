@@ -2,8 +2,8 @@ package hansung.hansung_connect.domain.post.service;
 
 import hansung.hansung_connect.common.exception.GeneralException;
 import hansung.hansung_connect.common.exception.code.status.ErrorStatus;
-import hansung.hansung_connect.domain.commnet.entity.Comment;
-import hansung.hansung_connect.domain.commnet.repository.CommentRepository;
+import hansung.hansung_connect.domain.comment.entity.Comment;
+import hansung.hansung_connect.domain.comment.repository.CommentRepository;
 import hansung.hansung_connect.domain.post.converter.PostConverter;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto;
 import hansung.hansung_connect.domain.post.dto.PostResponseDto.PostListResponse;
@@ -77,7 +77,7 @@ public class PostQueryServiceImpl implements PostQueryService {
                 throw new GeneralException(ErrorStatus.POST_QUERY_TYPE_EXCEPTION);
         }
 
-        if(posts == null) {
+        if (posts == null) {
             throw new GeneralException(ErrorStatus.POST_LIST_NOT_FOUND);
         }
 
@@ -86,7 +86,7 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     private Page<Post> getPopularPosts(int page) {
 
-        if(page != 0) {
+        if (page != 0) {
             throw new GeneralException(ErrorStatus.INVALID_PAGE_FOR_POPULAR);
         }
 
@@ -103,7 +103,7 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     private Page<Post> getPopularPosts(int page, int size) {
 
-        if(page != 0) {
+        if (page != 0) {
             throw new GeneralException(ErrorStatus.INVALID_PAGE_FOR_POPULAR);
         }
 
@@ -184,9 +184,9 @@ public class PostQueryServiceImpl implements PostQueryService {
     @Override
     public PostSummaryListResponse getLatestPromotionPosts() {
 
-         Page<Post> posts;
-         posts = getPromotionPosts(0, MAIN_PAGE_POST_SIZE);
+        Page<Post> posts;
+        posts = getPromotionPosts(0, MAIN_PAGE_POST_SIZE);
 
-         return postConverter.toPostSummaryListResponse(posts);
+        return postConverter.toPostSummaryListResponse(posts);
     }
 }

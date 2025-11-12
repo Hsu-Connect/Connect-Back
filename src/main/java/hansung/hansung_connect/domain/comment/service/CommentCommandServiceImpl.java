@@ -1,12 +1,12 @@
-package hansung.hansung_connect.domain.commnet.service;
+package hansung.hansung_connect.domain.comment.service;
 
 import hansung.hansung_connect.common.exception.GeneralException;
 import hansung.hansung_connect.common.exception.code.status.ErrorStatus;
-import hansung.hansung_connect.domain.commnet.converter.CommentConverter;
-import hansung.hansung_connect.domain.commnet.dto.CommentRequestDto.CommentCreateRequest;
-import hansung.hansung_connect.domain.commnet.dto.CommentResponseDto.CommentCreateResponse;
-import hansung.hansung_connect.domain.commnet.entity.Comment;
-import hansung.hansung_connect.domain.commnet.repository.CommentRepository;
+import hansung.hansung_connect.domain.comment.converter.CommentConverter;
+import hansung.hansung_connect.domain.comment.dto.CommentRequestDto.CommentCreateRequest;
+import hansung.hansung_connect.domain.comment.dto.CommentResponseDto.CommentCreateResponse;
+import hansung.hansung_connect.domain.comment.entity.Comment;
+import hansung.hansung_connect.domain.comment.repository.CommentRepository;
 import hansung.hansung_connect.domain.post.entity.Post;
 import hansung.hansung_connect.domain.post.repository.PostRepository;
 import hansung.hansung_connect.domain.user.entity.User;
@@ -49,7 +49,7 @@ public class CommentCommandServiceImpl implements CommentCommandService {
         User commentAuthor = comment.getUser();
         User postAuthor = comment.getPost().getUser();
 
-        if(!commentAuthor.getId().equals(userId) && !postAuthor.getId().equals(userId)) {
+        if (!commentAuthor.getId().equals(userId) && !postAuthor.getId().equals(userId)) {
             throw new GeneralException(ErrorStatus.COMMENT_FORBIDDEN);
         }
 

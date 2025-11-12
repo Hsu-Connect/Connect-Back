@@ -1,6 +1,6 @@
-package hansung.hansung_connect.domain.commnet.repository;
+package hansung.hansung_connect.domain.comment.repository;
 
-import hansung.hansung_connect.domain.commnet.entity.Comment;
+import hansung.hansung_connect.domain.comment.entity.Comment;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
