@@ -5,11 +5,12 @@ import hansung.hansung_connect.domain.career.dto.CareerRequestDTO.BatchCreateReq
 import hansung.hansung_connect.domain.career.dto.CareerResponseDTO;
 
 public interface CareerCommandService {
-    CareerResponseDTO.CreateResponseDTO createCareer(CareerRequestDTO.CreateRequestDTO requestDTO);
+    CareerResponseDTO.CreateResponseDTO createCareer(Long userId, CareerRequestDTO.CreateRequestDTO requestDTO);
 
-    CareerResponseDTO.BulkCreateResponseDTO createCareers(BatchCreateRequestDTO requestDTO);
+    CareerResponseDTO.BulkCreateResponseDTO createCareers(Long userId, BatchCreateRequestDTO requestDTO);
 
-    CareerResponseDTO.UpdateResponseDTO updateCareer(Long careerId, CareerRequestDTO.UpdateRequestDTO requestDTO);
+    CareerResponseDTO.UpdateResponseDTO updateCareer(Long userId, Long careerId,
+                                                     CareerRequestDTO.UpdateRequestDTO requestDTO);
 
 }
 
