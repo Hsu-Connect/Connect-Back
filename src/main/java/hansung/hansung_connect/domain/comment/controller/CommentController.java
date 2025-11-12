@@ -1,10 +1,10 @@
-package hansung.hansung_connect.domain.commnet.controller;
+package hansung.hansung_connect.domain.comment.controller;
 
 import hansung.hansung_connect.common.response.ApiResponse;
-import hansung.hansung_connect.domain.commnet.dto.CommentRequestDto;
-import hansung.hansung_connect.domain.commnet.dto.CommentResponseDto;
-import hansung.hansung_connect.domain.commnet.service.CommentCommandService;
-import hansung.hansung_connect.domain.commnet.service.CommentQueryService;
+import hansung.hansung_connect.domain.comment.dto.CommentRequestDto;
+import hansung.hansung_connect.domain.comment.dto.CommentResponseDto;
+import hansung.hansung_connect.domain.comment.service.CommentCommandService;
+import hansung.hansung_connect.domain.comment.service.CommentQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,10 +42,10 @@ public class CommentController {
     @Operation(
             summary = "내 댓글 리스트 조회",
             description = """
-            작성한 댓글의 리스트를 조회하는 API입니다.
-            
-            한 페이지에 댓글의 수는 20입니다.
-            """
+                    작성한 댓글의 리스트를 조회하는 API입니다.
+                    
+                    한 페이지에 댓글의 수는 20입니다.
+                    """
     )
     @GetMapping("/comments/my")
     public ApiResponse<CommentResponseDto.CommentListResponse> getMyComments(
@@ -59,11 +59,11 @@ public class CommentController {
     @Operation(
             summary = "댓글 삭제",
             description = """
-            댓글을 삭제하는 API입니다.
-            Path Variable로 댓글 아이디를 입력해주세요.
-            - 게시글의 작성자인 경우 모든 댓글 삭제 가능
-            - 게시글의 작성자가 아닌 경우 자신의 댓글만 삭제 가능
-            """
+                    댓글을 삭제하는 API입니다.
+                    Path Variable로 댓글 아이디를 입력해주세요.
+                    - 게시글의 작성자인 경우 모든 댓글 삭제 가능
+                    - 게시글의 작성자가 아닌 경우 자신의 댓글만 삭제 가능
+                    """
     )
     @DeleteMapping
     public ApiResponse<Void> deleteComment(

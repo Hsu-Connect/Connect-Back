@@ -1,8 +1,8 @@
-package hansung.hansung_connect.domain.commnet.converter;
+package hansung.hansung_connect.domain.comment.converter;
 
-import hansung.hansung_connect.domain.commnet.dto.CommentRequestDto;
-import hansung.hansung_connect.domain.commnet.dto.CommentResponseDto;
-import hansung.hansung_connect.domain.commnet.entity.Comment;
+import hansung.hansung_connect.domain.comment.dto.CommentRequestDto;
+import hansung.hansung_connect.domain.comment.dto.CommentResponseDto;
+import hansung.hansung_connect.domain.comment.entity.Comment;
 import hansung.hansung_connect.domain.post.entity.Post;
 import hansung.hansung_connect.domain.user.entity.User;
 import java.util.List;

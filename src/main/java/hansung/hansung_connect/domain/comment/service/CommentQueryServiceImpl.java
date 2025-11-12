@@ -1,11 +1,11 @@
-package hansung.hansung_connect.domain.commnet.service;
+package hansung.hansung_connect.domain.comment.service;
 
 import hansung.hansung_connect.common.exception.GeneralException;
 import hansung.hansung_connect.common.exception.code.status.ErrorStatus;
-import hansung.hansung_connect.domain.commnet.converter.CommentConverter;
-import hansung.hansung_connect.domain.commnet.dto.CommentResponseDto.CommentListResponse;
-import hansung.hansung_connect.domain.commnet.entity.Comment;
-import hansung.hansung_connect.domain.commnet.repository.CommentRepository;
+import hansung.hansung_connect.domain.comment.converter.CommentConverter;
+import hansung.hansung_connect.domain.comment.dto.CommentResponseDto.CommentListResponse;
+import hansung.hansung_connect.domain.comment.entity.Comment;
+import hansung.hansung_connect.domain.comment.repository.CommentRepository;
 import hansung.hansung_connect.domain.user.entity.User;
 import hansung.hansung_connect.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

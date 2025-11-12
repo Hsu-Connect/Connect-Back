@@ -1,6 +1,6 @@
-package hansung.hansung_connect.domain.commnet.service;
+package hansung.hansung_connect.domain.comment.service;
 
-import hansung.hansung_connect.domain.commnet.dto.CommentResponseDto;
+import hansung.hansung_connect.domain.comment.dto.CommentResponseDto;
 
 public interface CommentQueryService {
 
